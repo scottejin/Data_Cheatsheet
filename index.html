@@ -296,6 +296,7 @@
     <div class="content">
       <section id="start">
         <h2>1. Where to start</h2>
+        <p class="annotate-note">Code stays on the left. Explanations are shown in a separate panel on the right for each block.</p>
         <p>If you are new, here is the easiest mental model:</p>
         <ul>
           <li><strong>pandas</strong> is for loading, cleaning, filtering, grouping, and preparing data.</li>
@@ -308,17 +309,17 @@
         </div>
 
         <h3>Basic setup code</h3>
-<pre><code>import pandas as pd
+<div class="code-split"><pre class="code-left"><code>import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-sns.set_theme()  # optional, but makes plots look nicer</code></pre>
+sns.set_theme()  # optional, but makes plots look nicer</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L2</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L3</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L4</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>optional, but makes plots look nicer</span></li></ol></div></div>
 
         <h3>Typical data load</h3>
-<pre><code>df = pd.read_csv("my_data.csv")
+<div class="code-split"><pre class="code-left"><code>df = pd.read_csv(&quot;my_data.csv&quot;)
 print(df.head())
-print(df.info())</code></pre>
+print(df.info())</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Loads CSV data from disk into a DataFrame.</span></li><li><span class="line-ref">L2</span><span>Calls a function/method.</span></li><li><span class="line-ref">L3</span><span>Calls a function/method.</span></li></ol></div></div>
 
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
@@ -346,28 +347,28 @@ print(df.info())</code></pre>
         <p>Many graphing problems are actually data cleaning problems in disguise. Before you plot, check these things.</p>
 
         <h3>3.1 Missing values</h3>
-<pre><code>df.isna().sum()</code></pre>
+<div class="code-split"><pre class="code-left"><code>df.isna().sum()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Counts missing values per column.</span></li></ol></div></div>
         <p>Use this to see how many missing values each column has.</p>
 
-<pre><code># remove rows with missing values in important columns
-clean_df = df.dropna(subset=["sales", "date"])
+<div class="code-split"><pre class="code-left"><code># remove rows with missing values in important columns
+clean_df = df.dropna(subset=[&quot;sales&quot;, &quot;date&quot;])
 
 # fill missing values
-clean_df["region"] = clean_df["region"].fillna("Unknown")</code></pre>
+clean_df[&quot;region&quot;] = clean_df[&quot;region&quot;].fillna(&quot;Unknown&quot;)</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>remove rows with missing values in important columns</span></li><li><span class="line-ref">L2</span><span>Removes rows/columns with missing values based on the rule.</span></li><li><span class="line-ref">L3</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L4</span><span>fill missing values</span></li><li><span class="line-ref">L5</span><span>Fills missing values with a replacement value.</span></li></ol></div></div>
 
         <h3>3.2 Duplicates</h3>
-<pre><code>df.duplicated().sum()
-df = df.drop_duplicates()</code></pre>
+<div class="code-split"><pre class="code-left"><code>df.duplicated().sum()
+df = df.drop_duplicates()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Calls a function/method.</span></li><li><span class="line-ref">L2</span><span>Removes duplicate rows.</span></li></ol></div></div>
 
         <h3>3.3 Wrong data types</h3>
-<pre><code>df.info()
+<div class="code-split"><pre class="code-left"><code>df.info()
 
-df["date"] = pd.to_datetime(df["date"])
-df["sales"] = pd.to_numeric(df["sales"], errors="coerce")</code></pre>
+df[&quot;date&quot;] = pd.to_datetime(df[&quot;date&quot;])
+df[&quot;sales&quot;] = pd.to_numeric(df[&quot;sales&quot;], errors=&quot;coerce&quot;)</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Calls a function/method.</span></li><li><span class="line-ref">L2</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L3</span><span>Converts values into datetime format.</span></li><li><span class="line-ref">L4</span><span>Converts values into numeric format; invalid entries can become missing.</span></li></ol></div></div>
 
         <h3>3.4 Messy text</h3>
-<pre><code>df["city"] = df["city"].str.strip().str.title()
-df["category"] = df["category"].str.lower()</code></pre>
+<div class="code-split"><pre class="code-left"><code>df[&quot;city&quot;] = df[&quot;city&quot;].str.strip().str.title()
+df[&quot;category&quot;] = df[&quot;category&quot;].str.lower()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L2</span><span>Assigns a result to a variable.</span></li></ol></div></div>
 
         <h3>3.5 Outliers</h3>
         <p>Outliers are unusually large or small values. They are not always wrong, but they can strongly affect your graph. Box plots are especially useful for spotting them.</p>
@@ -451,25 +452,25 @@ df["category"] = df["category"].str.lower()</code></pre>
         <p>A line chart helps you see trends, increases, decreases, and patterns over time.</p>
 
         <h3>Simple example with pandas</h3>
-<pre><code>df = pd.DataFrame({
-    "month": ["Jan", "Feb", "Mar", "Apr"],
-    "sales": [120, 150, 140, 180]
+<div class="code-split"><pre class="code-left"><code>df = pd.DataFrame({
+    &quot;month&quot;: [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;],
+    &quot;sales&quot;: [120, 150, 140, 180]
 })
 
-plt.plot(df["month"], df["sales"])
-plt.title("Monthly Sales")
-plt.xlabel("Month")
-plt.ylabel("Sales")
-plt.show()</code></pre>
+plt.plot(df[&quot;month&quot;], df[&quot;sales&quot;])
+plt.title(&quot;Monthly Sales&quot;)
+plt.xlabel(&quot;Month&quot;)
+plt.ylabel(&quot;Sales&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Calls a function/method.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L9</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>Better matplotlib version</h3>
-<pre><code>fig, ax = plt.subplots()
-ax.plot(df["month"], df["sales"], marker="o")
-ax.set_title("Monthly Sales")
-ax.set_xlabel("Month")
-ax.set_ylabel("Sales")
+<div class="code-split"><pre class="code-left"><code>fig, ax = plt.subplots()
+ax.plot(df[&quot;month&quot;], df[&quot;sales&quot;], marker=&quot;o&quot;)
+ax.set_title(&quot;Monthly Sales&quot;)
+ax.set_xlabel(&quot;Month&quot;)
+ax.set_ylabel(&quot;Sales&quot;)
 ax.grid(True)
-plt.show()</code></pre>
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates figure/axes containers for plotting.</span></li><li><span class="line-ref">L2</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L3</span><span>Sets the chart title.</span></li><li><span class="line-ref">L4</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L5</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L6</span><span>Calls a function/method.</span></li><li><span class="line-ref">L7</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>Beginner explanation</h3>
         <ul>
@@ -494,23 +495,23 @@ plt.show()</code></pre>
         <p>Bar charts make it easy to compare sizes between groups, such as sales by product or number of students by class.</p>
 
         <h3>Basic bar chart</h3>
-<pre><code>df = pd.DataFrame({
-    "product": ["A", "B", "C"],
-    "sales": [40, 55, 32]
+<div class="code-split"><pre class="code-left"><code>df = pd.DataFrame({
+    &quot;product&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;],
+    &quot;sales&quot;: [40, 55, 32]
 })
 
-plt.bar(df["product"], df["sales"])
-plt.title("Sales by Product")
-plt.xlabel("Product")
-plt.ylabel("Sales")
-plt.show()</code></pre>
+plt.bar(df[&quot;product&quot;], df[&quot;sales&quot;])
+plt.title(&quot;Sales by Product&quot;)
+plt.xlabel(&quot;Product&quot;)
+plt.ylabel(&quot;Sales&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L9</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>Horizontal bar chart</h3>
-<pre><code>plt.barh(df["product"], df["sales"])
-plt.title("Sales by Product")
-plt.xlabel("Sales")
-plt.ylabel("Product")
-plt.show()</code></pre>
+<div class="code-split"><pre class="code-left"><code>plt.barh(df[&quot;product&quot;], df[&quot;sales&quot;])
+plt.title(&quot;Sales by Product&quot;)
+plt.xlabel(&quot;Sales&quot;)
+plt.ylabel(&quot;Product&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L2</span><span>Sets the chart title.</span></li><li><span class="line-ref">L3</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L4</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L5</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>When horizontal bars are better</h3>
         <p>If category names are long, a horizontal bar chart is usually easier to read.</p>
@@ -530,13 +531,13 @@ plt.show()</code></pre>
         <p>A histogram groups numeric values into bins and shows how many values fall into each bin.</p>
 
         <h3>Example</h3>
-<pre><code>scores = [45, 50, 52, 60, 61, 63, 70, 72, 74, 80, 83, 90]
+<div class="code-split"><pre class="code-left"><code>scores = [45, 50, 52, 60, 61, 63, 70, 72, 74, 80, 83, 90]
 
-plt.hist(scores, bins=5, edgecolor="black")
-plt.title("Distribution of Scores")
-plt.xlabel("Score")
-plt.ylabel("Frequency")
-plt.show()</code></pre>
+plt.hist(scores, bins=5, edgecolor=&quot;black&quot;)
+plt.title(&quot;Distribution of Scores&quot;)
+plt.xlabel(&quot;Score&quot;)
+plt.ylabel(&quot;Frequency&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L2</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L3</span><span>Draws a histogram (distribution across bins).</span></li><li><span class="line-ref">L4</span><span>Sets the chart title.</span></li><li><span class="line-ref">L5</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L6</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L7</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>Why <code>bins</code> matters</h3>
         <p>The <code>bins</code> argument controls how many groups the data is split into. Too few bins can hide detail. Too many bins can make the graph noisy.</p>
@@ -560,21 +561,21 @@ plt.show()</code></pre>
         <p>Each point represents one row of data. You can look for positive relationships, negative relationships, clusters, or outliers.</p>
 
         <h3>Matplotlib example</h3>
-<pre><code>df = pd.DataFrame({
-    "study_hours": [1, 2, 3, 4, 5, 6],
-    "score": [50, 55, 65, 70, 78, 88]
+<div class="code-split"><pre class="code-left"><code>df = pd.DataFrame({
+    &quot;study_hours&quot;: [1, 2, 3, 4, 5, 6],
+    &quot;score&quot;: [50, 55, 65, 70, 78, 88]
 })
 
-plt.scatter(df["study_hours"], df["score"])
-plt.title("Study Hours vs Exam Score")
-plt.xlabel("Study Hours")
-plt.ylabel("Score")
-plt.show()</code></pre>
+plt.scatter(df[&quot;study_hours&quot;], df[&quot;score&quot;])
+plt.title(&quot;Study Hours vs Exam Score&quot;)
+plt.xlabel(&quot;Study Hours&quot;)
+plt.ylabel(&quot;Score&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Draws points to show relationships between numeric variables.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L9</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>Seaborn version</h3>
-<pre><code>sns.scatterplot(data=df, x="study_hours", y="score")
-plt.title("Study Hours vs Exam Score")
-plt.show()</code></pre>
+<div class="code-split"><pre class="code-left"><code>sns.scatterplot(data=df, x=&quot;study_hours&quot;, y=&quot;score&quot;)
+plt.title(&quot;Study Hours vs Exam Score&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Draws points to show relationships between numeric variables.</span></li><li><span class="line-ref">L2</span><span>Sets the chart title.</span></li><li><span class="line-ref">L3</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>What to say in an exam</h3>
         <p>If the dots rise from left to right, there may be a positive relationship. If they fall from left to right, there may be a negative relationship. If they are scattered randomly, there may be little or no relationship.</p>
@@ -595,14 +596,14 @@ plt.show()</code></pre>
         </ul>
 
         <h3>Example</h3>
-<pre><code>df = pd.DataFrame({
-    "class": ["A", "A", "A", "B", "B", "B"],
-    "score": [55, 60, 90, 62, 64, 66]
+<div class="code-split"><pre class="code-left"><code>df = pd.DataFrame({
+    &quot;class&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;],
+    &quot;score&quot;: [55, 60, 90, 62, 64, 66]
 })
 
-sns.boxplot(data=df, x="class", y="score")
-plt.title("Score Distribution by Class")
-plt.show()</code></pre>
+sns.boxplot(data=df, x=&quot;class&quot;, y=&quot;score&quot;)
+plt.title(&quot;Score Distribution by Class&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <div class="callout tip">
           <strong>Good use:</strong> compare salary distributions across departments, exam scores across classes, or delivery times across regions.
@@ -616,9 +617,9 @@ plt.show()</code></pre>
         <p><strong>Use a violin plot when:</strong> you want to see the shape of the distribution, not just the quartiles.</p>
 
         <h3>Example</h3>
-<pre><code>sns.violinplot(data=df, x="class", y="score")
-plt.title("Score Distribution by Class")
-plt.show()</code></pre>
+<div class="code-split"><pre class="code-left"><code>sns.violinplot(data=df, x=&quot;class&quot;, y=&quot;score&quot;)
+plt.title(&quot;Score Distribution by Class&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L2</span><span>Sets the chart title.</span></li><li><span class="line-ref">L3</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>How it differs from a box plot</h3>
         <p>A box plot gives a compact summary. A violin plot shows the density shape, so you can better see where values are concentrated.</p>
@@ -635,13 +636,13 @@ plt.show()</code></pre>
         <p><strong>Use a count plot when:</strong> you want the number of rows in each category.</p>
 
         <h3>Example</h3>
-<pre><code>df = pd.DataFrame({
-    "subject": ["Maths", "English", "Maths", "Science", "English", "Maths"]
+<div class="code-split"><pre class="code-left"><code>df = pd.DataFrame({
+    &quot;subject&quot;: [&quot;Maths&quot;, &quot;English&quot;, &quot;Maths&quot;, &quot;Science&quot;, &quot;English&quot;, &quot;Maths&quot;]
 })
 
-sns.countplot(data=df, x="subject")
-plt.title("Number of Students by Subject")
-plt.show()</code></pre>
+sns.countplot(data=df, x=&quot;subject&quot;)
+plt.title(&quot;Number of Students by Subject&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Calls a function/method.</span></li><li><span class="line-ref">L4</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L5</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L6</span><span>Sets the chart title.</span></li><li><span class="line-ref">L7</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>Why not just a bar chart?</h3>
         <p>You can use a bar chart too, but a count plot automatically counts category frequencies from the raw data.</p>
@@ -654,11 +655,11 @@ plt.show()</code></pre>
         <p><strong>Use a heatmap when:</strong> you want to show values in a colour grid, especially correlations.</p>
 
         <h3>Correlation heatmap example</h3>
-<pre><code>corr = df.corr(numeric_only=True)
+<div class="code-split"><pre class="code-left"><code>corr = df.corr(numeric_only=True)
 
-sns.heatmap(corr, annot=True, cmap="coolwarm")
-plt.title("Correlation Heatmap")
-plt.show()</code></pre>
+sns.heatmap(corr, annot=True, cmap=&quot;coolwarm&quot;)
+plt.title(&quot;Correlation Heatmap&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Computes correlations between numeric columns.</span></li><li><span class="line-ref">L2</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L3</span><span>Shows matrix values as colors (often correlations).</span></li><li><span class="line-ref">L4</span><span>Sets the chart title.</span></li><li><span class="line-ref">L5</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>What this means</h3>
         <ul>
@@ -678,29 +679,29 @@ plt.show()</code></pre>
         <h2>13. Labels, legends, subplots, and saving your graph</h2>
 
         <h3>Always label your graph</h3>
-<pre><code>plt.title("Sales by Month")
-plt.xlabel("Month")
-plt.ylabel("Sales")</code></pre>
+<div class="code-split"><pre class="code-left"><code>plt.title(&quot;Sales by Month&quot;)
+plt.xlabel(&quot;Month&quot;)
+plt.ylabel(&quot;Sales&quot;)</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Sets the chart title.</span></li><li><span class="line-ref">L2</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L3</span><span>Sets the y-axis label.</span></li></ol></div></div>
 
         <h3>Add a legend when needed</h3>
-<pre><code>ax.plot(x, y1, label="2024")
-ax.plot(x, y2, label="2025")
-ax.legend()</code></pre>
+<div class="code-split"><pre class="code-left"><code>ax.plot(x, y1, label=&quot;2024&quot;)
+ax.plot(x, y2, label=&quot;2025&quot;)
+ax.legend()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L2</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L3</span><span>Shows legend entries for labelled plot elements.</span></li></ol></div></div>
 
         <h3>Use subplots for multiple graphs</h3>
-<pre><code>fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+<div class="code-split"><pre class="code-left"><code>fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
-axes[0].hist(df["score"], bins=5)
-axes[0].set_title("Scores")
+axes[0].hist(df[&quot;score&quot;], bins=5)
+axes[0].set_title(&quot;Scores&quot;)
 
-axes[1].boxplot(df["score"])
-axes[1].set_title("Score Spread")
+axes[1].boxplot(df[&quot;score&quot;])
+axes[1].set_title(&quot;Score Spread&quot;)
 
 plt.tight_layout()
-plt.show()</code></pre>
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates figure/axes containers for plotting.</span></li><li><span class="line-ref">L2</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L3</span><span>Draws a histogram (distribution across bins).</span></li><li><span class="line-ref">L4</span><span>Sets the chart title.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L9</span><span>Calls a function/method.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>Save your graph</h3>
-<pre><code>plt.savefig("my_graph.png", dpi=300, bbox_inches="tight")</code></pre>
+<div class="code-split"><pre class="code-left"><code>plt.savefig(&quot;my_graph.png&quot;, dpi=300, bbox_inches=&quot;tight&quot;)</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Saves the current figure to an image file.</span></li></ol></div></div>
 
         <p><strong>What this does:</strong></p>
         <ul>
@@ -731,9 +732,9 @@ plt.show()</code></pre>
         <h3>Extra caution about pie charts</h3>
         <p>Pie charts exist, but they are often harder to compare accurately than bar charts. If your exam specifically asks for a pie chart, use one. Otherwise, a bar chart is often the better choice.</p>
 
-<pre><code>df["sales"].plot(kind="pie", autopct="%1.1f%%")
-plt.ylabel("")
-plt.show()</code></pre>
+<div class="code-split"><pre class="code-left"><code>df[&quot;sales&quot;].plot(kind=&quot;pie&quot;, autopct=&quot;%1.1f%%&quot;)
+plt.ylabel(&quot;&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L2</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L3</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
@@ -765,13 +766,13 @@ plt.show()</code></pre>
 
       <section id="cheatsheet">
         <h2>16. Quick cheat sheet</h2>
-<pre><code># Load data
+<div class="code-split"><pre class="code-left"><code># Load data
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_theme()
 
-df = pd.read_csv("data.csv")
+df = pd.read_csv(&quot;data.csv&quot;)
 
 # Inspect data
 df.head()
@@ -781,35 +782,35 @@ df.isna().sum()
 
 # Clean data
 df = df.drop_duplicates()
-df["date"] = pd.to_datetime(df["date"], errors="coerce")
-df["value"] = pd.to_numeric(df["value"], errors="coerce")
+df[&quot;date&quot;] = pd.to_datetime(df[&quot;date&quot;], errors=&quot;coerce&quot;)
+df[&quot;value&quot;] = pd.to_numeric(df[&quot;value&quot;], errors=&quot;coerce&quot;)
 
 # Line chart
-sns.lineplot(data=df, x="date", y="value")
+sns.lineplot(data=df, x=&quot;date&quot;, y=&quot;value&quot;)
 
 # Bar chart
-sns.barplot(data=df, x="category", y="value")
+sns.barplot(data=df, x=&quot;category&quot;, y=&quot;value&quot;)
 
 # Histogram
-sns.histplot(data=df, x="value", bins=20)
+sns.histplot(data=df, x=&quot;value&quot;, bins=20)
 
 # Scatter plot
-sns.scatterplot(data=df, x="x_col", y="y_col")
+sns.scatterplot(data=df, x=&quot;x_col&quot;, y=&quot;y_col&quot;)
 
 # Box plot
-sns.boxplot(data=df, x="group", y="value")
+sns.boxplot(data=df, x=&quot;group&quot;, y=&quot;value&quot;)
 
 # Violin plot
-sns.violinplot(data=df, x="group", y="value")
+sns.violinplot(data=df, x=&quot;group&quot;, y=&quot;value&quot;)
 
 # Count plot
-sns.countplot(data=df, x="category")
+sns.countplot(data=df, x=&quot;category&quot;)
 
 # Heatmap
 corr = df.corr(numeric_only=True)
-sns.heatmap(corr, annot=True, cmap="coolwarm")
+sns.heatmap(corr, annot=True, cmap=&quot;coolwarm&quot;)
 
-plt.show()</code></pre>
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Load data</span></li><li><span class="line-ref">L2</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L3</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L4</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L5</span><span>Calls a function/method.</span></li><li><span class="line-ref">L6</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L7</span><span>Loads CSV data from disk into a DataFrame.</span></li><li><span class="line-ref">L8</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L9</span><span>Inspect data</span></li><li><span class="line-ref">L10</span><span>Calls a function/method.</span></li><li><span class="line-ref">L11</span><span>Calls a function/method.</span></li><li><span class="line-ref">L12</span><span>Calls a function/method.</span></li><li><span class="line-ref">L13</span><span>Counts missing values per column.</span></li><li><span class="line-ref">L14</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L15</span><span>Clean data</span></li><li><span class="line-ref">L16</span><span>Removes duplicate rows.</span></li><li><span class="line-ref">L17</span><span>Converts values into datetime format.</span></li><li><span class="line-ref">L18</span><span>Converts values into numeric format; invalid entries can become missing.</span></li><li><span class="line-ref">L19</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L20</span><span>Line chart</span></li><li><span class="line-ref">L21</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L22</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L23</span><span>Bar chart</span></li><li><span class="line-ref">L24</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L25</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L26</span><span>Histogram</span></li><li><span class="line-ref">L27</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L28</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L29</span><span>Scatter plot</span></li><li><span class="line-ref">L30</span><span>Draws points to show relationships between numeric variables.</span></li><li><span class="line-ref">L31</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L32</span><span>Box plot</span></li><li><span class="line-ref">L33</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L34</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L35</span><span>Violin plot</span></li><li><span class="line-ref">L36</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L37</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L38</span><span>Count plot</span></li><li><span class="line-ref">L39</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L40</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L41</span><span>Heatmap</span></li><li><span class="line-ref">L42</span><span>Computes correlations between numeric columns.</span></li><li><span class="line-ref">L43</span><span>Shows matrix values as colors (often correlations).</span></li><li><span class="line-ref">L44</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L45</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
@@ -820,25 +821,25 @@ plt.show()</code></pre>
         <p>This section rewrites every core example with detailed comments. Read the comments directly in the code blocks — each line explains exactly what it does and why it is there.</p>
 
         <h3>A) Setup and imports</h3>
-<pre><code># Import pandas for data tables (DataFrame objects)
+<div class="code-split"><pre class="code-left"><code># Import pandas for data tables (DataFrame objects)
 import pandas as pd
 
 # Import numpy for numerical helpers and arrays
 import numpy as np
 
-# Import matplotlib's plotting interface
+# Import matplotlib&#x27;s plotting interface
 import matplotlib.pyplot as plt
 
 # Import seaborn for higher-level statistical charts
 import seaborn as sns
 
-# Apply seaborn's default visual theme so charts look cleaner
-sns.set_theme()</code></pre>
+# Apply seaborn&#x27;s default visual theme so charts look cleaner
+sns.set_theme()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Import pandas for data tables (DataFrame objects)</span></li><li><span class="line-ref">L2</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L3</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L4</span><span>Import numpy for numerical helpers and arrays</span></li><li><span class="line-ref">L5</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L6</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L7</span><span>Import matplotlib&#x27;s plotting interface</span></li><li><span class="line-ref">L8</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L9</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L10</span><span>Import seaborn for higher-level statistical charts</span></li><li><span class="line-ref">L11</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L12</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L13</span><span>Apply seaborn&#x27;s default visual theme so charts look cleaner</span></li><li><span class="line-ref">L14</span><span>Calls a function/method.</span></li></ol></div></div>
 
         <h3>B) Load and inspect a dataset</h3>
-<pre><code># Read a CSV file from disk into a DataFrame named df
-# Replace "my_data.csv" with your real file name/path
-df = pd.read_csv("my_data.csv")
+<div class="code-split"><pre class="code-left"><code># Read a CSV file from disk into a DataFrame named df
+# Replace &quot;my_data.csv&quot; with your real file name/path
+df = pd.read_csv(&quot;my_data.csv&quot;)
 
 # Show first 5 rows so you can quickly inspect columns and sample values
 print(df.head())
@@ -847,198 +848,198 @@ print(df.head())
 print(df.info())
 
 # Show numeric summary (count, mean, std, min, quartiles, max)
-print(df.describe())</code></pre>
+print(df.describe())</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Read a CSV file from disk into a DataFrame named df</span></li><li><span class="line-ref">L2</span><span>Replace &quot;my_data.csv&quot; with your real file name/path</span></li><li><span class="line-ref">L3</span><span>Loads CSV data from disk into a DataFrame.</span></li><li><span class="line-ref">L4</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L5</span><span>Show first 5 rows so you can quickly inspect columns and sample values</span></li><li><span class="line-ref">L6</span><span>Calls a function/method.</span></li><li><span class="line-ref">L7</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L8</span><span>Show column names, data types, and non-null counts</span></li><li><span class="line-ref">L9</span><span>Calls a function/method.</span></li><li><span class="line-ref">L10</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L11</span><span>Show numeric summary (count, mean, std, min, quartiles, max)</span></li><li><span class="line-ref">L12</span><span>Calls a function/method.</span></li></ol></div></div>
 
         <h3>C) Data cleaning examples (fully annotated)</h3>
-<pre><code># Count missing values in each column
+<div class="code-split"><pre class="code-left"><code># Count missing values in each column
 missing_by_column = df.isna().sum()
 print(missing_by_column)
 
 # Drop rows where critical columns are missing
-# Here, if 'sales' or 'date' is missing, that row is removed
-clean_df = df.dropna(subset=["sales", "date"])
+# Here, if &#x27;sales&#x27; or &#x27;date&#x27; is missing, that row is removed
+clean_df = df.dropna(subset=[&quot;sales&quot;, &quot;date&quot;])
 
-# Fill missing text values in 'region' with a default label
-clean_df["region"] = clean_df["region"].fillna("Unknown")
+# Fill missing text values in &#x27;region&#x27; with a default label
+clean_df[&quot;region&quot;] = clean_df[&quot;region&quot;].fillna(&quot;Unknown&quot;)
 
 # Count duplicate rows (True means a row repeats an earlier row)
 duplicate_count = clean_df.duplicated().sum()
-print("Duplicate rows:", duplicate_count)
+print(&quot;Duplicate rows:&quot;, duplicate_count)
 
 # Remove duplicate rows
 clean_df = clean_df.drop_duplicates()
 
-# Convert 'date' text into proper datetime values
-# errors='coerce' means invalid dates become NaT (missing datetime)
-clean_df["date"] = pd.to_datetime(clean_df["date"], errors="coerce")
+# Convert &#x27;date&#x27; text into proper datetime values
+# errors=&#x27;coerce&#x27; means invalid dates become NaT (missing datetime)
+clean_df[&quot;date&quot;] = pd.to_datetime(clean_df[&quot;date&quot;], errors=&quot;coerce&quot;)
 
-# Convert 'sales' to numeric
-# errors='coerce' means invalid strings become NaN
-clean_df["sales"] = pd.to_numeric(clean_df["sales"], errors="coerce")
+# Convert &#x27;sales&#x27; to numeric
+# errors=&#x27;coerce&#x27; means invalid strings become NaN
+clean_df[&quot;sales&quot;] = pd.to_numeric(clean_df[&quot;sales&quot;], errors=&quot;coerce&quot;)
 
 # Standardize city text: strip spaces then title-case
-clean_df["city"] = clean_df["city"].str.strip().str.title()
+clean_df[&quot;city&quot;] = clean_df[&quot;city&quot;].str.strip().str.title()
 
 # Standardize category text: lower-case for consistency
-clean_df["category"] = clean_df["category"].str.lower()</code></pre>
+clean_df[&quot;category&quot;] = clean_df[&quot;category&quot;].str.lower()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Count missing values in each column</span></li><li><span class="line-ref">L2</span><span>Counts missing values per column.</span></li><li><span class="line-ref">L3</span><span>Calls a function/method.</span></li><li><span class="line-ref">L4</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L5</span><span>Drop rows where critical columns are missing</span></li><li><span class="line-ref">L6</span><span>Here, if &#x27;sales&#x27; or &#x27;date&#x27; is missing, that row is removed</span></li><li><span class="line-ref">L7</span><span>Removes rows/columns with missing values based on the rule.</span></li><li><span class="line-ref">L8</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L9</span><span>Fill missing text values in &#x27;region&#x27; with a default label</span></li><li><span class="line-ref">L10</span><span>Fills missing values with a replacement value.</span></li><li><span class="line-ref">L11</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L12</span><span>Count duplicate rows (True means a row repeats an earlier row)</span></li><li><span class="line-ref">L13</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L14</span><span>Calls a function/method.</span></li><li><span class="line-ref">L15</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L16</span><span>Remove duplicate rows</span></li><li><span class="line-ref">L17</span><span>Removes duplicate rows.</span></li><li><span class="line-ref">L18</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L19</span><span>Convert &#x27;date&#x27; text into proper datetime values</span></li><li><span class="line-ref">L20</span><span>errors=&#x27;coerce&#x27; means invalid dates become NaT (missing datetime)</span></li><li><span class="line-ref">L21</span><span>Converts values into datetime format.</span></li><li><span class="line-ref">L22</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L23</span><span>Convert &#x27;sales&#x27; to numeric</span></li><li><span class="line-ref">L24</span><span>errors=&#x27;coerce&#x27; means invalid strings become NaN</span></li><li><span class="line-ref">L25</span><span>Converts values into numeric format; invalid entries can become missing.</span></li><li><span class="line-ref">L26</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L27</span><span>Standardize city text: strip spaces then title-case</span></li><li><span class="line-ref">L28</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L29</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L30</span><span>Standardize category text: lower-case for consistency</span></li><li><span class="line-ref">L31</span><span>Assigns a result to a variable.</span></li></ol></div></div>
 
         <h3>D) Line chart (matplotlib OO style)</h3>
-<pre><code># Create example data
+<div class="code-split"><pre class="code-left"><code># Create example data
 line_df = pd.DataFrame({
-    "month": ["Jan", "Feb", "Mar", "Apr"],
-    "sales": [120, 150, 140, 180]
+    &quot;month&quot;: [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;],
+    &quot;sales&quot;: [120, 150, 140, 180]
 })
 
 # Create a figure (the whole image) and one axes (the plotting area)
 fig, ax = plt.subplots()
 
 # Plot month on x-axis and sales on y-axis
-# marker='o' draws circles on each data point
-ax.plot(line_df["month"], line_df["sales"], marker="o")
+# marker=&#x27;o&#x27; draws circles on each data point
+ax.plot(line_df[&quot;month&quot;], line_df[&quot;sales&quot;], marker=&quot;o&quot;)
 
 # Add chart title
-ax.set_title("Monthly Sales")
+ax.set_title(&quot;Monthly Sales&quot;)
 
 # Label x-axis
-ax.set_xlabel("Month")
+ax.set_xlabel(&quot;Month&quot;)
 
 # Label y-axis
-ax.set_ylabel("Sales")
+ax.set_ylabel(&quot;Sales&quot;)
 
 # Show grid lines for easier reading
 ax.grid(True)
 
 # Display the chart window/output
-plt.show()</code></pre>
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Create example data</span></li><li><span class="line-ref">L2</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L5</span><span>Calls a function/method.</span></li><li><span class="line-ref">L6</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L7</span><span>Create a figure (the whole image) and one axes (the plotting area)</span></li><li><span class="line-ref">L8</span><span>Creates figure/axes containers for plotting.</span></li><li><span class="line-ref">L9</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L10</span><span>Plot month on x-axis and sales on y-axis</span></li><li><span class="line-ref">L11</span><span>marker=&#x27;o&#x27; draws circles on each data point</span></li><li><span class="line-ref">L12</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L13</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L14</span><span>Add chart title</span></li><li><span class="line-ref">L15</span><span>Sets the chart title.</span></li><li><span class="line-ref">L16</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L17</span><span>Label x-axis</span></li><li><span class="line-ref">L18</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L19</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L20</span><span>Label y-axis</span></li><li><span class="line-ref">L21</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L22</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L23</span><span>Show grid lines for easier reading</span></li><li><span class="line-ref">L24</span><span>Calls a function/method.</span></li><li><span class="line-ref">L25</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L26</span><span>Display the chart window/output</span></li><li><span class="line-ref">L27</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>E) Bar chart (vertical and horizontal)</h3>
-<pre><code># Example category data
+<div class="code-split"><pre class="code-left"><code># Example category data
 bar_df = pd.DataFrame({
-    "product": ["A", "B", "C"],
-    "sales": [40, 55, 32]
+    &quot;product&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;],
+    &quot;sales&quot;: [40, 55, 32]
 })
 
 # Vertical bar chart
-plt.bar(bar_df["product"], bar_df["sales"])  # x=categories, y=values
-plt.title("Sales by Product")                 # chart title
-plt.xlabel("Product")                         # x-axis label
-plt.ylabel("Sales")                           # y-axis label
+plt.bar(bar_df[&quot;product&quot;], bar_df[&quot;sales&quot;])  # x=categories, y=values
+plt.title(&quot;Sales by Product&quot;)                 # chart title
+plt.xlabel(&quot;Product&quot;)                         # x-axis label
+plt.ylabel(&quot;Sales&quot;)                           # y-axis label
 plt.show()                                     # render chart
 
 # Horizontal bar chart
-plt.barh(bar_df["product"], bar_df["sales"]) # y=categories, x=values
-plt.title("Sales by Product")
-plt.xlabel("Sales")
-plt.ylabel("Product")
-plt.show()</code></pre>
+plt.barh(bar_df[&quot;product&quot;], bar_df[&quot;sales&quot;]) # y=categories, x=values
+plt.title(&quot;Sales by Product&quot;)
+plt.xlabel(&quot;Sales&quot;)
+plt.ylabel(&quot;Product&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Example category data</span></li><li><span class="line-ref">L2</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L5</span><span>Calls a function/method.</span></li><li><span class="line-ref">L6</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L7</span><span>Vertical bar chart</span></li><li><span class="line-ref">L8</span><span>x=categories, y=values</span></li><li><span class="line-ref">L9</span><span>chart title</span></li><li><span class="line-ref">L10</span><span>x-axis label</span></li><li><span class="line-ref">L11</span><span>y-axis label</span></li><li><span class="line-ref">L12</span><span>render chart</span></li><li><span class="line-ref">L13</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L14</span><span>Horizontal bar chart</span></li><li><span class="line-ref">L15</span><span>y=categories, x=values</span></li><li><span class="line-ref">L16</span><span>Sets the chart title.</span></li><li><span class="line-ref">L17</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L18</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L19</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>F) Histogram</h3>
-<pre><code># One numeric list to visualize as a distribution
+<div class="code-split"><pre class="code-left"><code># One numeric list to visualize as a distribution
 scores = [45, 50, 52, 60, 61, 63, 70, 72, 74, 80, 83, 90]
 
 # bins=5 splits value range into 5 groups
 # edgecolor draws outlines around bars for readability
-plt.hist(scores, bins=5, edgecolor="black")
+plt.hist(scores, bins=5, edgecolor=&quot;black&quot;)
 
 # Add readable labels
-plt.title("Distribution of Scores")
-plt.xlabel("Score")
-plt.ylabel("Frequency")
+plt.title(&quot;Distribution of Scores&quot;)
+plt.xlabel(&quot;Score&quot;)
+plt.ylabel(&quot;Frequency&quot;)
 
 # Show chart
-plt.show()</code></pre>
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>One numeric list to visualize as a distribution</span></li><li><span class="line-ref">L2</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L3</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L4</span><span>bins=5 splits value range into 5 groups</span></li><li><span class="line-ref">L5</span><span>edgecolor draws outlines around bars for readability</span></li><li><span class="line-ref">L6</span><span>Draws a histogram (distribution across bins).</span></li><li><span class="line-ref">L7</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L8</span><span>Add readable labels</span></li><li><span class="line-ref">L9</span><span>Sets the chart title.</span></li><li><span class="line-ref">L10</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L11</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L12</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L13</span><span>Show chart</span></li><li><span class="line-ref">L14</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>G) Scatter plot (matplotlib and seaborn)</h3>
-<pre><code># Example numeric relationship data
+<div class="code-split"><pre class="code-left"><code># Example numeric relationship data
 scatter_df = pd.DataFrame({
-    "study_hours": [1, 2, 3, 4, 5, 6],
-    "score": [50, 55, 65, 70, 78, 88]
+    &quot;study_hours&quot;: [1, 2, 3, 4, 5, 6],
+    &quot;score&quot;: [50, 55, 65, 70, 78, 88]
 })
 
 # Matplotlib scatter: one dot per row
-plt.scatter(scatter_df["study_hours"], scatter_df["score"])
-plt.title("Study Hours vs Exam Score")
-plt.xlabel("Study Hours")
-plt.ylabel("Score")
+plt.scatter(scatter_df[&quot;study_hours&quot;], scatter_df[&quot;score&quot;])
+plt.title(&quot;Study Hours vs Exam Score&quot;)
+plt.xlabel(&quot;Study Hours&quot;)
+plt.ylabel(&quot;Score&quot;)
 plt.show()
 
 # Seaborn scatter (same idea, dataframe-friendly API)
-sns.scatterplot(data=scatter_df, x="study_hours", y="score")
-plt.title("Study Hours vs Exam Score")
-plt.show()</code></pre>
+sns.scatterplot(data=scatter_df, x=&quot;study_hours&quot;, y=&quot;score&quot;)
+plt.title(&quot;Study Hours vs Exam Score&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Example numeric relationship data</span></li><li><span class="line-ref">L2</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L5</span><span>Calls a function/method.</span></li><li><span class="line-ref">L6</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L7</span><span>Matplotlib scatter: one dot per row</span></li><li><span class="line-ref">L8</span><span>Draws points to show relationships between numeric variables.</span></li><li><span class="line-ref">L9</span><span>Sets the chart title.</span></li><li><span class="line-ref">L10</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L11</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L12</span><span>Displays the chart output.</span></li><li><span class="line-ref">L13</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L14</span><span>Seaborn scatter (same idea, dataframe-friendly API)</span></li><li><span class="line-ref">L15</span><span>Draws points to show relationships between numeric variables.</span></li><li><span class="line-ref">L16</span><span>Sets the chart title.</span></li><li><span class="line-ref">L17</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>H) Box plot and violin plot</h3>
-<pre><code># Category + numeric values for distribution comparison
+<div class="code-split"><pre class="code-left"><code># Category + numeric values for distribution comparison
 dist_df = pd.DataFrame({
-    "class": ["A", "A", "A", "B", "B", "B"],
-    "score": [55, 60, 90, 62, 64, 66]
+    &quot;class&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;],
+    &quot;score&quot;: [55, 60, 90, 62, 64, 66]
 })
 
 # Box plot: median, quartiles, whiskers, possible outliers
-sns.boxplot(data=dist_df, x="class", y="score")
-plt.title("Score Distribution by Class")
+sns.boxplot(data=dist_df, x=&quot;class&quot;, y=&quot;score&quot;)
+plt.title(&quot;Score Distribution by Class&quot;)
 plt.show()
 
 # Violin plot: distribution shape + density
-sns.violinplot(data=dist_df, x="class", y="score")
-plt.title("Score Distribution by Class")
-plt.show()</code></pre>
+sns.violinplot(data=dist_df, x=&quot;class&quot;, y=&quot;score&quot;)
+plt.title(&quot;Score Distribution by Class&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Category + numeric values for distribution comparison</span></li><li><span class="line-ref">L2</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L5</span><span>Calls a function/method.</span></li><li><span class="line-ref">L6</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L7</span><span>Box plot: median, quartiles, whiskers, possible outliers</span></li><li><span class="line-ref">L8</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L9</span><span>Sets the chart title.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li><li><span class="line-ref">L11</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L12</span><span>Violin plot: distribution shape + density</span></li><li><span class="line-ref">L13</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L14</span><span>Sets the chart title.</span></li><li><span class="line-ref">L15</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>I) Count plot</h3>
-<pre><code># Category-only data
+<div class="code-split"><pre class="code-left"><code># Category-only data
 count_df = pd.DataFrame({
-    "subject": ["Maths", "English", "Maths", "Science", "English", "Maths"]
+    &quot;subject&quot;: [&quot;Maths&quot;, &quot;English&quot;, &quot;Maths&quot;, &quot;Science&quot;, &quot;English&quot;, &quot;Maths&quot;]
 })
 
 # countplot automatically counts rows per category
-sns.countplot(data=count_df, x="subject")
-plt.title("Number of Students by Subject")
-plt.show()</code></pre>
+sns.countplot(data=count_df, x=&quot;subject&quot;)
+plt.title(&quot;Number of Students by Subject&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Category-only data</span></li><li><span class="line-ref">L2</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>countplot automatically counts rows per category</span></li><li><span class="line-ref">L7</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L8</span><span>Sets the chart title.</span></li><li><span class="line-ref">L9</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>J) Correlation heatmap</h3>
-<pre><code># Keep only numeric columns and compute correlation matrix
+<div class="code-split"><pre class="code-left"><code># Keep only numeric columns and compute correlation matrix
 corr = clean_df.corr(numeric_only=True)
 
 # Draw heatmap of correlation values
 # annot=True prints numbers inside cells
 # cmap selects color palette
-sns.heatmap(corr, annot=True, cmap="coolwarm")
-plt.title("Correlation Heatmap")
-plt.show()</code></pre>
+sns.heatmap(corr, annot=True, cmap=&quot;coolwarm&quot;)
+plt.title(&quot;Correlation Heatmap&quot;)
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Keep only numeric columns and compute correlation matrix</span></li><li><span class="line-ref">L2</span><span>Computes correlations between numeric columns.</span></li><li><span class="line-ref">L3</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L4</span><span>Draw heatmap of correlation values</span></li><li><span class="line-ref">L5</span><span>annot=True prints numbers inside cells</span></li><li><span class="line-ref">L6</span><span>cmap selects color palette</span></li><li><span class="line-ref">L7</span><span>Shows matrix values as colors (often correlations).</span></li><li><span class="line-ref">L8</span><span>Sets the chart title.</span></li><li><span class="line-ref">L9</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <h3>K) Labels, legends, subplots, and save</h3>
-<pre><code># Suppose x, y1, y2 are already defined arrays/lists
+<div class="code-split"><pre class="code-left"><code># Suppose x, y1, y2 are already defined arrays/lists
 fig, ax = plt.subplots()              # make figure + axes
-ax.plot(x, y1, label="2024")          # first line with legend label
-ax.plot(x, y2, label="2025")          # second line with legend label
-ax.set_title("Sales by Month")        # title
-ax.set_xlabel("Month")                # x-axis label
-ax.set_ylabel("Sales")                # y-axis label
+ax.plot(x, y1, label=&quot;2024&quot;)          # first line with legend label
+ax.plot(x, y2, label=&quot;2025&quot;)          # second line with legend label
+ax.set_title(&quot;Sales by Month&quot;)        # title
+ax.set_xlabel(&quot;Month&quot;)                # x-axis label
+ax.set_ylabel(&quot;Sales&quot;)                # y-axis label
 ax.legend()                           # show legend from labels
 plt.show()                            # draw
 
 # Subplots: 1 row, 2 columns
 fig, axes = plt.subplots(1, 2, figsize=(10, 4))
-axes[0].hist(clean_df["score"], bins=5)   # left plot = histogram
-axes[0].set_title("Scores")
-axes[1].boxplot(clean_df["score"])        # right plot = boxplot
-axes[1].set_title("Score Spread")
+axes[0].hist(clean_df[&quot;score&quot;], bins=5)   # left plot = histogram
+axes[0].set_title(&quot;Scores&quot;)
+axes[1].boxplot(clean_df[&quot;score&quot;])        # right plot = boxplot
+axes[1].set_title(&quot;Score Spread&quot;)
 plt.tight_layout()                         # fix spacing overlap
 plt.show()
 
 # Save current figure as high-quality PNG
-plt.savefig("my_graph.png", dpi=300, bbox_inches="tight")</code></pre>
+plt.savefig(&quot;my_graph.png&quot;, dpi=300, bbox_inches=&quot;tight&quot;)</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Suppose x, y1, y2 are already defined arrays/lists</span></li><li><span class="line-ref">L2</span><span>make figure + axes</span></li><li><span class="line-ref">L3</span><span>first line with legend label</span></li><li><span class="line-ref">L4</span><span>second line with legend label</span></li><li><span class="line-ref">L5</span><span>title</span></li><li><span class="line-ref">L6</span><span>x-axis label</span></li><li><span class="line-ref">L7</span><span>y-axis label</span></li><li><span class="line-ref">L8</span><span>show legend from labels</span></li><li><span class="line-ref">L9</span><span>draw</span></li><li><span class="line-ref">L10</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L11</span><span>Subplots: 1 row, 2 columns</span></li><li><span class="line-ref">L12</span><span>Creates figure/axes containers for plotting.</span></li><li><span class="line-ref">L13</span><span>left plot = histogram</span></li><li><span class="line-ref">L14</span><span>Sets the chart title.</span></li><li><span class="line-ref">L15</span><span>right plot = boxplot</span></li><li><span class="line-ref">L16</span><span>Sets the chart title.</span></li><li><span class="line-ref">L17</span><span>fix spacing overlap</span></li><li><span class="line-ref">L18</span><span>Displays the chart output.</span></li><li><span class="line-ref">L19</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L20</span><span>Save current figure as high-quality PNG</span></li><li><span class="line-ref">L21</span><span>Saves the current figure to an image file.</span></li></ol></div></div>
 
         <h3>L) Pie chart (only when specifically required)</h3>
-<pre><code># Create pie chart from a numeric series
+<div class="code-split"><pre class="code-left"><code># Create pie chart from a numeric series
 # autopct formats percentages on slices
-df["sales"].plot(kind="pie", autopct="%1.1f%%")
+df[&quot;sales&quot;].plot(kind=&quot;pie&quot;, autopct=&quot;%1.1f%%&quot;)
 
 # Remove default y-label text for cleaner look
-plt.ylabel("")
+plt.ylabel(&quot;&quot;)
 
 # Show pie chart
-plt.show()</code></pre>
+plt.show()</code></pre><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Create pie chart from a numeric series</span></li><li><span class="line-ref">L2</span><span>autopct formats percentages on slices</span></li><li><span class="line-ref">L3</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L4</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L5</span><span>Remove default y-label text for cleaner look</span></li><li><span class="line-ref">L6</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L7</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L8</span><span>Show pie chart</span></li><li><span class="line-ref">L9</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <div class="callout tip">
           <strong>How to study this section:</strong> copy one block at a time into a notebook, run it, and then change one parameter (like <code>bins</code>, <code>figsize</code>, or <code>cmap</code>) to see what changes.
@@ -1066,104 +1067,15 @@ plt.show()</code></pre>
     (function () {
       const input = document.getElementById('searchInput');
       const sections = Array.from(document.querySelectorAll('.content section'));
-      if (input) {
-        input.addEventListener('input', () => {
-          const q = input.value.trim().toLowerCase();
-          sections.forEach(sec => {
-            const text = sec.textContent.toLowerCase();
-            sec.classList.toggle('hidden-section', q && !text.includes(q));
-          });
+      if (!input) return;
+
+      input.addEventListener('input', () => {
+        const q = input.value.trim().toLowerCase();
+        sections.forEach(sec => {
+          const text = sec.textContent.toLowerCase();
+          sec.classList.toggle('hidden-section', q && !text.includes(q));
         });
-      }
-
-      function inferExplanation(code) {
-        const t = code.trim();
-        if (!t) return 'Blank spacer line for readability.';
-        if (t.startsWith('import ')) return 'Imports a Python module/library into your script.';
-        if (t.startsWith('from ') && t.includes(' import ')) return 'Imports selected names from another module.';
-        if (t.includes('= pd.read_csv(')) return 'Loads CSV data from disk into a DataFrame.';
-        if (t.includes('= pd.DataFrame(')) return 'Creates a new DataFrame object from provided values.';
-        if (t.includes('plt.show(')) return 'Displays the chart output.';
-        if (t.includes('plt.title(') || t.includes('set_title(')) return 'Sets the chart title.';
-        if (t.includes('xlabel') || t.includes('set_xlabel(')) return 'Sets the x-axis label.';
-        if (t.includes('ylabel') || t.includes('set_ylabel(')) return 'Sets the y-axis label.';
-        if (t.includes('legend(')) return 'Shows legend entries for labelled plot elements.';
-        if (t.includes('subplots(')) return 'Creates figure/axes containers for plotting.';
-        if (t.includes('hist(')) return 'Draws a histogram (distribution across bins).';
-        if (t.includes('scatter(') || t.includes('scatterplot(')) return 'Draws points to show relationships between numeric variables.';
-        if (t.includes('bar(') || t.includes('barh(') || t.includes('barplot(') || t.includes('countplot(')) return 'Draws bars for category comparisons or counts.';
-        if (t.includes('boxplot(') || t.includes('violinplot(')) return 'Shows distribution by category.';
-        if (t.includes('heatmap(')) return 'Shows matrix values as colors (often correlations).';
-        if (t.includes('corr(')) return 'Computes correlations between numeric columns.';
-        if (t.includes('to_datetime(')) return 'Converts values into datetime format.';
-        if (t.includes('to_numeric(')) return 'Converts values into numeric format; invalid entries can become missing.';
-        if (t.includes('dropna(')) return 'Removes rows/columns with missing values based on the rule.';
-        if (t.includes('fillna(')) return 'Fills missing values with a replacement value.';
-        if (t.includes('drop_duplicates(')) return 'Removes duplicate rows.';
-        if (t.includes('isna().sum(')) return 'Counts missing values per column.';
-        if (t.includes('savefig(')) return 'Saves the current figure to an image file.';
-        if (t.includes('=')) return 'Assigns a result to a variable.';
-        if (t.endsWith(')')) return 'Calls a function/method.';
-        return 'Executes this Python statement.';
-      }
-
-      function lineExplanation(line) {
-        const hashIdx = line.indexOf('#');
-        if (hashIdx !== -1) {
-          const inline = line.slice(hashIdx + 1).trim();
-          if (inline) return inline;
-        }
-        const codeOnly = hashIdx === -1 ? line : line.slice(0, hashIdx).replace(/\s+$/, '');
-        return inferExplanation(codeOnly);
-      }
-
-      const blocks = Array.from(document.querySelectorAll('pre code'));
-      blocks.forEach(codeEl => {
-        const rawCode = codeEl.textContent.replace(/	/g, '    ');
-        const lines = rawCode.split('\n');
-
-        const split = document.createElement('div');
-        split.className = 'code-split';
-
-        const left = document.createElement('pre');
-        left.className = 'code-left';
-        const leftCode = document.createElement('code');
-        leftCode.textContent = rawCode;
-        left.appendChild(leftCode);
-
-        const right = document.createElement('div');
-        right.className = 'code-right';
-        const title = document.createElement('h5');
-        title.textContent = 'Line-by-line explanation';
-        right.appendChild(title);
-
-        const list = document.createElement('ol');
-        lines.forEach((line, i) => {
-          const li = document.createElement('li');
-          const ref = document.createElement('span');
-          ref.className = 'line-ref';
-          ref.textContent = `L${i + 1}`;
-          li.appendChild(ref);
-
-          const text = document.createElement('span');
-          text.textContent = lineExplanation(line);
-          li.appendChild(text);
-          list.appendChild(li);
-        });
-        right.appendChild(list);
-
-        split.appendChild(left);
-        split.appendChild(right);
-
-        const pre = codeEl.parentElement;
-        pre.replaceWith(split);
       });
-
-      const note = document.createElement('p');
-      note.className = 'annotate-note';
-      note.textContent = 'Code stays on the left. Explanations are shown in a separate panel on the right for each block.';
-      const firstSection = document.querySelector('.content section');
-      if (firstSection) firstSection.insertBefore(note, firstSection.firstChild.nextSibling);
     })();
   </script>
 </body>
