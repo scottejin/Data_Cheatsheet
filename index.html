@@ -28,45 +28,27 @@
       color: var(--text);
       line-height: 1.65;
     }
-    .hero {
-      background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #14b8a6 100%);
-      color: white;
-      padding: 56px 20px 44px;
-    }
-    .hero-inner, .container {
+    .container {
       max-width: 1120px;
       margin: 0 auto;
-    }
-    .hero h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2rem, 4vw, 3.4rem);
-      line-height: 1.05;
-    }
-    .hero p {
-      max-width: 850px;
-      font-size: 1.08rem;
-      opacity: 0.96;
-      margin: 10px 0;
-    }
-    .pill-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    .pill {
-      border: 1px solid rgba(255,255,255,0.28);
-      background: rgba(255,255,255,0.1);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 0.92rem;
-    }
-    .container {
-      padding: 28px 20px 60px;
+      padding: 16px 20px 60px;
       display: grid;
       grid-template-columns: 280px 1fr;
       gap: 24px;
     }
+    .search-box { margin: 8px 0 12px; }
+    .search-box input {
+      width: 100%;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      outline: none;
+      background: #f8fbff;
+    }
+    .search-box input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+    .hidden-section { display: none !important; }
+
     .sidebar {
       position: sticky;
       top: 16px;
@@ -192,30 +174,46 @@
       color: var(--accent);
       font-weight: 600;
     }
+
+    .code-annotator {
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0b1020;
+      margin: 10px 0 16px;
+    }
+    .code-row {
+      display: grid;
+      grid-template-columns: 52px minmax(280px, 1fr) minmax(260px, 1fr);
+      border-top: 1px solid rgba(148,163,184,0.2);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88rem;
+    }
+    .code-row:first-child { border-top: none; }
+    .code-ln { color: #94a3b8; padding: 8px 10px; background: #0f172a; text-align: right; }
+    .code-code { color: #e2e8f0; padding: 8px 12px; white-space: pre; overflow-x: auto; }
+    .code-exp { color: #cbd5e1; padding: 8px 12px; border-left: 2px solid rgba(56,189,248,0.45); background: rgba(15,23,42,0.65); }
+    .code-row.blank .code-exp { color: #64748b; }
+    .annotate-note { font-size: 0.92rem; color: #334155; margin-top: 6px; }
     @media (max-width: 920px) {
       .container { grid-template-columns: 1fr; }
       .sidebar { position: relative; top: 0; }
+      .code-row { grid-template-columns: 44px 1fr; }
+      .code-exp { grid-column: 2; border-left: 2px solid rgba(56,189,248,0.45); }
     }
   </style>
 </head>
 <body>
-  <header class="hero" id="top">
-    <div class="hero-inner">
-      <h1>Python Graphing Study Guide</h1>
-      <p>A beginner-friendly offline website for learning how to make graphs in Python. This guide focuses on the graph types most likely to matter in a data cleaning and data visualisation exam, with plain-English explanations, code you can copy, and advice on when each graph is the right choice.</p>
-      <p><strong>Main tools covered:</strong> pandas, matplotlib, seaborn.</p>
-      <div class="pill-row">
-        <div class="pill">Beginner-friendly</div>
-        <div class="pill">Offline HTML file</div>
-        <div class="pill">Exam-focused</div>
-        <div class="pill">Copy-paste code examples</div>
-      </div>
-    </div>
-  </header>
+  <div id="top"></div>
+
+
 
   <main class="container">
     <aside class="sidebar">
       <h2>Contents</h2>
+      <div class="search-box">
+        <input id="searchInput" type="search" placeholder="Search topics, code, terms..." aria-label="Search study guide" />
+      </div>
       <a href="#start">1. Where to start</a>
       <a href="#workflow">2. Exam workflow</a>
       <a href="#cleaning">3. Clean data before graphing</a>
@@ -233,7 +231,7 @@
       <a href="#practice">15. Practice tasks</a>
       <a href="#cheatsheet">16. Quick cheat sheet</a>
       <a href="#annotated">17. Fully annotated code (line-by-line)</a>
-      <a href="#sources">17. Sources used</a>
+      <a href="#sources">18. Sources used</a>
     </aside>
 
     <div class="content">
@@ -1004,5 +1002,100 @@ plt.show()</code></pre>
       </section>
     </div>
   </main>
+
+  <script>
+    (function () {
+      const input = document.getElementById('searchInput');
+      const sections = Array.from(document.querySelectorAll('.content section'));
+      if (input) {
+        input.addEventListener('input', () => {
+          const q = input.value.trim().toLowerCase();
+          sections.forEach(sec => {
+            const text = sec.textContent.toLowerCase();
+            sec.classList.toggle('hidden-section', q && !text.includes(q));
+          });
+        });
+      }
+
+      function inferExplanation(code) {
+        const t = code.trim();
+        if (!t) return '';
+        if (t.startsWith('import ')) return 'Imports a Python module/library into your script.';
+        if (t.startsWith('from ') && t.includes(' import ')) return 'Imports selected names from another module.';
+        if (t.includes('= pd.read_csv(')) return 'Loads CSV data from disk into a DataFrame.';
+        if (t.includes('= pd.DataFrame(')) return 'Creates a new DataFrame object from the provided data.';
+        if (t.includes('plt.show(')) return 'Renders/displays the current figure output.';
+        if (t.includes('plt.title(') || t.includes('set_title(')) return 'Sets the chart title text.';
+        if (t.includes('xlabel') || t.includes('set_xlabel(')) return 'Sets the label for the x-axis.';
+        if (t.includes('ylabel') || t.includes('set_ylabel(')) return 'Sets the label for the y-axis.';
+        if (t.includes('legend(')) return 'Shows legend entries for labelled plot elements.';
+        if (t.includes('subplots(')) return 'Creates a figure and one or more axes to plot on.';
+        if (t.includes('hist(')) return 'Draws a histogram to show data distribution across bins.';
+        if (t.includes('scatter(') || t.includes('scatterplot(')) return 'Draws a scatter plot for relationship between numeric variables.';
+        if (t.includes('bar(') || t.includes('barh(') || t.includes('barplot(') || t.includes('countplot(')) return 'Draws bars to compare categories or counts.';
+        if (t.includes('boxplot(') || t.includes('violinplot(')) return 'Draws distribution summary by category.';
+        if (t.includes('heatmap(')) return 'Draws a color grid to visualize matrix/correlation values.';
+        if (t.includes('corr(')) return 'Computes correlation values between numeric columns.';
+        if (t.includes('to_datetime(')) return 'Converts values into datetime type.';
+        if (t.includes('to_numeric(')) return 'Converts values into numeric type; invalid values become missing if coerced.';
+        if (t.includes('dropna(')) return 'Removes rows/columns with missing values based on provided rules.';
+        if (t.includes('fillna(')) return 'Fills missing values with a replacement value.';
+        if (t.includes('drop_duplicates(')) return 'Removes duplicate rows from the data.';
+        if (t.includes('isna().sum(')) return 'Counts missing values per column.';
+        if (t.includes('savefig(')) return 'Saves the current figure to an image file.';
+        if (t.includes('=')) return 'Assigns the computed result to a variable.';
+        if (t.endsWith(')')) return 'Calls a function/method to perform an action.';
+        return 'Executes this Python statement.';
+      }
+
+      const blocks = Array.from(document.querySelectorAll('pre code'));
+      blocks.forEach(codeEl => {
+        const pre = codeEl.parentElement;
+        const lines = codeEl.textContent.replace(/	/g, '    ').split('\n');
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-annotator';
+
+        lines.forEach((line, i) => {
+          const row = document.createElement('div');
+          row.className = 'code-row';
+
+          let codePart = line;
+          let exp = '';
+          const hashIdx = line.indexOf('#');
+          if (hashIdx !== -1) {
+            codePart = line.slice(0, hashIdx).replace(/\s+$/, '');
+            exp = line.slice(hashIdx + 1).trim();
+          }
+          if (!exp) exp = inferExplanation(codePart);
+          if (!codePart.trim()) row.classList.add('blank');
+
+          const ln = document.createElement('div');
+          ln.className = 'code-ln';
+          ln.textContent = String(i + 1);
+
+          const code = document.createElement('div');
+          code.className = 'code-code';
+          code.textContent = codePart || ' ';
+
+          const ex = document.createElement('div');
+          ex.className = 'code-exp';
+          ex.textContent = exp || 'Blank spacer line for readability.';
+
+          row.appendChild(ln);
+          row.appendChild(code);
+          row.appendChild(ex);
+          wrapper.appendChild(row);
+        });
+
+        pre.replaceWith(wrapper);
+      });
+
+      const note = document.createElement('p');
+      note.className = 'annotate-note';
+      note.textContent = 'Code blocks are shown with side explanations line-by-line. Use Search to quickly find a topic or command.';
+      const firstSection = document.querySelector('.content section');
+      if (firstSection) firstSection.insertBefore(note, firstSection.firstChild.nextSibling);
+    })();
+  </script>
 </body>
 </html>
