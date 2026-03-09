@@ -232,6 +232,7 @@
       <a href="#mistakes">14. Common mistakes</a>
       <a href="#practice">15. Practice tasks</a>
       <a href="#cheatsheet">16. Quick cheat sheet</a>
+      <a href="#annotated">17. Fully annotated code (line-by-line)</a>
       <a href="#sources">17. Sources used</a>
     </aside>
 
@@ -756,8 +757,241 @@ plt.show()</code></pre>
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
 
+
+      <section id="annotated">
+        <h2>17. Fully annotated code (line-by-line)</h2>
+        <p>This section rewrites every core example with detailed comments. Read the comments directly in the code blocks — each line explains exactly what it does and why it is there.</p>
+
+        <h3>A) Setup and imports</h3>
+<pre><code># Import pandas for data tables (DataFrame objects)
+import pandas as pd
+
+# Import numpy for numerical helpers and arrays
+import numpy as np
+
+# Import matplotlib's plotting interface
+import matplotlib.pyplot as plt
+
+# Import seaborn for higher-level statistical charts
+import seaborn as sns
+
+# Apply seaborn's default visual theme so charts look cleaner
+sns.set_theme()</code></pre>
+
+        <h3>B) Load and inspect a dataset</h3>
+<pre><code># Read a CSV file from disk into a DataFrame named df
+# Replace "my_data.csv" with your real file name/path
+df = pd.read_csv("my_data.csv")
+
+# Show first 5 rows so you can quickly inspect columns and sample values
+print(df.head())
+
+# Show column names, data types, and non-null counts
+print(df.info())
+
+# Show numeric summary (count, mean, std, min, quartiles, max)
+print(df.describe())</code></pre>
+
+        <h3>C) Data cleaning examples (fully annotated)</h3>
+<pre><code># Count missing values in each column
+missing_by_column = df.isna().sum()
+print(missing_by_column)
+
+# Drop rows where critical columns are missing
+# Here, if 'sales' or 'date' is missing, that row is removed
+clean_df = df.dropna(subset=["sales", "date"])
+
+# Fill missing text values in 'region' with a default label
+clean_df["region"] = clean_df["region"].fillna("Unknown")
+
+# Count duplicate rows (True means a row repeats an earlier row)
+duplicate_count = clean_df.duplicated().sum()
+print("Duplicate rows:", duplicate_count)
+
+# Remove duplicate rows
+clean_df = clean_df.drop_duplicates()
+
+# Convert 'date' text into proper datetime values
+# errors='coerce' means invalid dates become NaT (missing datetime)
+clean_df["date"] = pd.to_datetime(clean_df["date"], errors="coerce")
+
+# Convert 'sales' to numeric
+# errors='coerce' means invalid strings become NaN
+clean_df["sales"] = pd.to_numeric(clean_df["sales"], errors="coerce")
+
+# Standardize city text: strip spaces then title-case
+clean_df["city"] = clean_df["city"].str.strip().str.title()
+
+# Standardize category text: lower-case for consistency
+clean_df["category"] = clean_df["category"].str.lower()</code></pre>
+
+        <h3>D) Line chart (matplotlib OO style)</h3>
+<pre><code># Create example data
+line_df = pd.DataFrame({
+    "month": ["Jan", "Feb", "Mar", "Apr"],
+    "sales": [120, 150, 140, 180]
+})
+
+# Create a figure (the whole image) and one axes (the plotting area)
+fig, ax = plt.subplots()
+
+# Plot month on x-axis and sales on y-axis
+# marker='o' draws circles on each data point
+ax.plot(line_df["month"], line_df["sales"], marker="o")
+
+# Add chart title
+ax.set_title("Monthly Sales")
+
+# Label x-axis
+ax.set_xlabel("Month")
+
+# Label y-axis
+ax.set_ylabel("Sales")
+
+# Show grid lines for easier reading
+ax.grid(True)
+
+# Display the chart window/output
+plt.show()</code></pre>
+
+        <h3>E) Bar chart (vertical and horizontal)</h3>
+<pre><code># Example category data
+bar_df = pd.DataFrame({
+    "product": ["A", "B", "C"],
+    "sales": [40, 55, 32]
+})
+
+# Vertical bar chart
+plt.bar(bar_df["product"], bar_df["sales"])  # x=categories, y=values
+plt.title("Sales by Product")                 # chart title
+plt.xlabel("Product")                         # x-axis label
+plt.ylabel("Sales")                           # y-axis label
+plt.show()                                     # render chart
+
+# Horizontal bar chart
+plt.barh(bar_df["product"], bar_df["sales"]) # y=categories, x=values
+plt.title("Sales by Product")
+plt.xlabel("Sales")
+plt.ylabel("Product")
+plt.show()</code></pre>
+
+        <h3>F) Histogram</h3>
+<pre><code># One numeric list to visualize as a distribution
+scores = [45, 50, 52, 60, 61, 63, 70, 72, 74, 80, 83, 90]
+
+# bins=5 splits value range into 5 groups
+# edgecolor draws outlines around bars for readability
+plt.hist(scores, bins=5, edgecolor="black")
+
+# Add readable labels
+plt.title("Distribution of Scores")
+plt.xlabel("Score")
+plt.ylabel("Frequency")
+
+# Show chart
+plt.show()</code></pre>
+
+        <h3>G) Scatter plot (matplotlib and seaborn)</h3>
+<pre><code># Example numeric relationship data
+scatter_df = pd.DataFrame({
+    "study_hours": [1, 2, 3, 4, 5, 6],
+    "score": [50, 55, 65, 70, 78, 88]
+})
+
+# Matplotlib scatter: one dot per row
+plt.scatter(scatter_df["study_hours"], scatter_df["score"])
+plt.title("Study Hours vs Exam Score")
+plt.xlabel("Study Hours")
+plt.ylabel("Score")
+plt.show()
+
+# Seaborn scatter (same idea, dataframe-friendly API)
+sns.scatterplot(data=scatter_df, x="study_hours", y="score")
+plt.title("Study Hours vs Exam Score")
+plt.show()</code></pre>
+
+        <h3>H) Box plot and violin plot</h3>
+<pre><code># Category + numeric values for distribution comparison
+dist_df = pd.DataFrame({
+    "class": ["A", "A", "A", "B", "B", "B"],
+    "score": [55, 60, 90, 62, 64, 66]
+})
+
+# Box plot: median, quartiles, whiskers, possible outliers
+sns.boxplot(data=dist_df, x="class", y="score")
+plt.title("Score Distribution by Class")
+plt.show()
+
+# Violin plot: distribution shape + density
+sns.violinplot(data=dist_df, x="class", y="score")
+plt.title("Score Distribution by Class")
+plt.show()</code></pre>
+
+        <h3>I) Count plot</h3>
+<pre><code># Category-only data
+count_df = pd.DataFrame({
+    "subject": ["Maths", "English", "Maths", "Science", "English", "Maths"]
+})
+
+# countplot automatically counts rows per category
+sns.countplot(data=count_df, x="subject")
+plt.title("Number of Students by Subject")
+plt.show()</code></pre>
+
+        <h3>J) Correlation heatmap</h3>
+<pre><code># Keep only numeric columns and compute correlation matrix
+corr = clean_df.corr(numeric_only=True)
+
+# Draw heatmap of correlation values
+# annot=True prints numbers inside cells
+# cmap selects color palette
+sns.heatmap(corr, annot=True, cmap="coolwarm")
+plt.title("Correlation Heatmap")
+plt.show()</code></pre>
+
+        <h3>K) Labels, legends, subplots, and save</h3>
+<pre><code># Suppose x, y1, y2 are already defined arrays/lists
+fig, ax = plt.subplots()              # make figure + axes
+ax.plot(x, y1, label="2024")          # first line with legend label
+ax.plot(x, y2, label="2025")          # second line with legend label
+ax.set_title("Sales by Month")        # title
+ax.set_xlabel("Month")                # x-axis label
+ax.set_ylabel("Sales")                # y-axis label
+ax.legend()                           # show legend from labels
+plt.show()                            # draw
+
+# Subplots: 1 row, 2 columns
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+axes[0].hist(clean_df["score"], bins=5)   # left plot = histogram
+axes[0].set_title("Scores")
+axes[1].boxplot(clean_df["score"])        # right plot = boxplot
+axes[1].set_title("Score Spread")
+plt.tight_layout()                         # fix spacing overlap
+plt.show()
+
+# Save current figure as high-quality PNG
+plt.savefig("my_graph.png", dpi=300, bbox_inches="tight")</code></pre>
+
+        <h3>L) Pie chart (only when specifically required)</h3>
+<pre><code># Create pie chart from a numeric series
+# autopct formats percentages on slices
+df["sales"].plot(kind="pie", autopct="%1.1f%%")
+
+# Remove default y-label text for cleaner look
+plt.ylabel("")
+
+# Show pie chart
+plt.show()</code></pre>
+
+        <div class="callout tip">
+          <strong>How to study this section:</strong> copy one block at a time into a notebook, run it, and then change one parameter (like <code>bins</code>, <code>figsize</code>, or <code>cmap</code>) to see what changes.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
       <section id="sources">
-        <h2>17. Sources used</h2>
+        <h2>18. Sources used</h2>
         <p>This study guide was written using the official documentation and documentation-derived material for the main Python plotting stack, then rewritten into novice-friendly explanations.</p>
         <ul>
           <li><strong>pandas documentation</strong> — plotting basics, <code>DataFrame.plot()</code>, histograms, box plots, and data handling concepts.</li>
