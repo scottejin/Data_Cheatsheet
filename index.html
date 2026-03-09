@@ -405,16 +405,51 @@
         <h4>Simple range checks before plotting</h4>
         <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df.loc[(df[&quot;score&quot;] &lt; 0) | (df[&quot;score&quot;] &gt; 100), &quot;score&quot;] = np.nan</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">df[&quot;score&quot;] = df[&quot;score&quot;].fillna(df[&quot;score&quot;].median())</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Flags impossible score values (outside 0-100) and marks them missing.</span></li><li><span class="line-ref">L2</span><span>Fills those missing/invalid scores with the median as a simple fallback.</span></li></ol></div></div>
 
-        <h3>3.7 Outliers</h3>
+        <h3>3.7 Numeric edge cases and robust fixes</h3>
+        <p>Real exam datasets often have messy numeric fields: commas, symbols, units, or impossible values. Clean these before plotting.</p>
+
+        <h4>Decimal/comma format mismatches (e.g., &quot;1.234,56&quot;)</h4>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt"># Example EU-style numeric text -&gt; standard decimal format</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">s = df["revenue"].astype(str)</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">s = s.str.replace(".", "", regex=False).str.replace(",", ".", regex=False)</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">df["revenue"] = pd.to_numeric(s, errors="coerce")</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Comment: handles locale number formatting safely.</span></li><li><span class="line-ref">L2</span><span>Ensures values are treated as strings before replacements.</span></li><li><span class="line-ref">L3</span><span>Removes thousands separator and converts decimal comma to dot.</span></li><li><span class="line-ref">L4</span><span>Converts cleaned text to numeric values.</span></li></ol></div></div>
+
+        <h4>Units mixed into numbers (e.g., &quot;72kg&quot;, &quot;1.8 m&quot;)</h4>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df["weight_kg"] = df["weight"].astype(str).str.extract(r"([0-9]+(?:\.[0-9]+)?)")</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">df["weight_kg"] = pd.to_numeric(df["weight_kg"], errors="coerce")</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Extracts the numeric part from mixed text values.</span></li><li><span class="line-ref">L2</span><span>Converts extracted values to numeric type.</span></li></ol></div></div>
+
+        <h3>3.8 Datetime edge cases</h3>
+        <p>Dates commonly break because of mixed formats, invalid entries, or timezone differences.</p>
+
+        <h4>Mixed date formats in one column</h4>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df["event_date"] = pd.to_datetime(df["event_date"], errors="coerce", dayfirst=True)</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">bad_dates = df[df["event_date"].isna()]</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">print("Rows with invalid dates:", len(bad_dates))</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Attempts conversion and turns invalid dates into NaT.</span></li><li><span class="line-ref">L2</span><span>Collects rows that failed conversion for review.</span></li><li><span class="line-ref">L3</span><span>Prints how many rows still need manual attention.</span></li></ol></div></div>
+
+        <h4>Timezone normalization before time plots</h4>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce", utc=True)</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">df["timestamp_local"] = df["timestamp"].dt.tz_convert("Australia/Melbourne")</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">df["hour"] = df["timestamp_local"].dt.hour</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Parses timestamp values in UTC consistently.</span></li><li><span class="line-ref">L2</span><span>Converts to one local timezone for fair comparisons.</span></li><li><span class="line-ref">L3</span><span>Extracts hour for hourly trend charts.</span></li></ol></div></div>
+
+        <h3>3.9 Categorical edge cases</h3>
+        <p>Category columns often have spelling drift, synonyms, and hidden whitespace that can fragment bars/counts.</p>
+
+        <h4>Map synonyms into a single category</h4>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df["channel"] = df["channel"].str.strip().str.lower()</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">mapping = {"ig": "instagram", "insta": "instagram", "fb": "facebook"}</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">df["channel"] = df["channel"].replace(mapping)</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Normalizes category text first.</span></li><li><span class="line-ref">L2</span><span>Defines known shorthand/synonym replacements.</span></li><li><span class="line-ref">L3</span><span>Applies replacements so categories are consistent.</span></li></ol></div></div>
+
+        <h4>Multi-value category cells (e.g., &quot;math;science&quot;)</h4>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">tmp = df.assign(subject=df["subject"].str.split(";"))</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">tmp = tmp.explode("subject")</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">tmp["subject"] = tmp["subject"].str.strip().str.title()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Splits multi-value text into lists.</span></li><li><span class="line-ref">L2</span><span>Expands each list item to its own row.</span></li><li><span class="line-ref">L3</span><span>Cleans each new category value before counting/plotting.</span></li></ol></div></div>
+
+        <h3>3.10 Outlier edge cases</h3>
         <p>Outliers are unusually high/low values. They are not always wrong. Keep them unless you have a clear reason to remove or cap them.</p>
 
-        <h3>3.8 Mini checklist before any graph</h3>
+        <h4>Simple IQR flagging + clipping</h4>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">q1 = df["sales"].quantile(0.25)</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">q3 = df["sales"].quantile(0.75)</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">iqr = q3 - q1</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">low, high = q1 - 1.5 * iqr, q3 + 1.5 * iqr</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt">df["sales_capped"] = df["sales"].clip(lower=low, upper=high)</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Gets lower quartile.</span></li><li><span class="line-ref">L2</span><span>Gets upper quartile.</span></li><li><span class="line-ref">L3</span><span>Computes interquartile range.</span></li><li><span class="line-ref">L4</span><span>Builds common IQR outlier bounds.</span></li><li><span class="line-ref">L5</span><span>Caps extreme values without deleting rows.</span></li></ol></div></div>
+
+        <h3>3.11 Join/merge edge cases before plotting</h3>
+        <p>If your graph uses merged tables, validate the merge or you can silently duplicate rows and inflate counts.</p>
+        <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">merged = orders.merge(customers, on="customer_id", how="left", indicator=True, validate="many_to_one")</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">print(merged["_merge"].value_counts())</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">merged = merged[merged["_merge"] != "left_only"]</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Merges with checks: each customer_id on right should map to at most one row.</span></li><li><span class="line-ref">L2</span><span>Shows matched/unmatched row counts.</span></li><li><span class="line-ref">L3</span><span>Drops unmatched rows if they would break the chart logic.</span></li></ol></div></div>
+
+        <h3>3.12 Mini checklist before any graph</h3>
         <ul>
           <li>No critical missing keys left.</li>
-          <li>Numeric columns are actually numeric.</li>
-          <li>Date columns are datetime type.</li>
-          <li>Categories are standardized (same spelling/case/spacing).</li>
-          <li>Obvious invalid values handled.</li>
+          <li>Numeric columns are actually numeric (including decimal/comma edge cases).</li>
+          <li>Date columns are datetime type and timezone-consistent when relevant.</li>
+          <li>Categories are standardized (same spelling/case/spacing/synonyms).</li>
+          <li>Duplicates and merge cardinality checks are handled.</li>
+          <li>Obvious invalid values and outliers are reviewed (not blindly dropped).</li>
         </ul>
 
         <a class="top-link" href="#top">↑ Back to top</a>
