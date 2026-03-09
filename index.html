@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Graphing Study Guide</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #2563eb;
+      --accent-2: #14b8a6;
+      --soft: #e2e8f0;
+      --code: #0b1020;
+      --warn: #fff7ed;
+      --warn-border: #fdba74;
+      --good: #ecfeff;
+      --good-border: #67e8f9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #eaf2ff 0%, #f8fafc 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #14b8a6 100%);
+      color: white;
+      padding: 56px 20px 44px;
+    }
+    .hero-inner, .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+    }
+    .hero p {
+      max-width: 850px;
+      font-size: 1.08rem;
+      opacity: 0.96;
+      margin: 10px 0;
+    }
+    .pill-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .pill {
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.1);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+    }
+    .container {
+      padding: 28px 20px 60px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+    .sidebar {
+      position: sticky;
+      top: 16px;
+      align-self: start;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid #dbeafe;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.07);
+    }
+    .sidebar h2 {
+      font-size: 1rem;
+      margin: 0 0 10px;
+    }
+    .sidebar a {
+      display: block;
+      padding: 7px 0;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .sidebar a:hover { color: var(--accent); }
+    .content section {
+      background: var(--card);
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 26px rgba(15,23,42,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    h2 {
+      font-size: 1.7rem;
+      margin: 0 0 14px;
+      line-height: 1.15;
+    }
+    h3 {
+      font-size: 1.22rem;
+      margin: 26px 0 10px;
+    }
+    h4 {
+      font-size: 1.04rem;
+      margin: 18px 0 8px;
+    }
+    p, li { font-size: 1rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+    .mini-card {
+      border: 1px solid #dbeafe;
+      background: #f8fbff;
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .mini-card strong {
+      color: #1d4ed8;
+    }
+    .callout {
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin: 16px 0;
+      border-left: 5px solid var(--accent);
+      background: #eff6ff;
+    }
+    .warning {
+      background: var(--warn);
+      border: 1px solid var(--warn-border);
+      border-left: 5px solid #f97316;
+    }
+    .tip {
+      background: var(--good);
+      border: 1px solid var(--good-border);
+      border-left: 5px solid #0891b2;
+    }
+    code {
+      background: #eff6ff;
+      color: #1e3a8a;
+      padding: 2px 6px;
+      border-radius: 7px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    pre {
+      background: var(--code);
+      color: #e5eefb;
+      padding: 16px;
+      border-radius: 16px;
+      overflow-x: auto;
+      border: 1px solid #1e293b;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+    th, td {
+      border: 1px solid #dbeafe;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #eff6ff;
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .top-link {
+      display: inline-block;
+      margin-top: 12px;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    @media (max-width: 920px) {
+      .container { grid-template-columns: 1fr; }
+      .sidebar { position: relative; top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <h1>Python Graphing Study Guide</h1>
+      <p>A beginner-friendly offline website for learning how to make graphs in Python. This guide focuses on the graph types most likely to matter in a data cleaning and data visualisation exam, with plain-English explanations, code you can copy, and advice on when each graph is the right choice.</p>
+      <p><strong>Main tools covered:</strong> pandas, matplotlib, seaborn.</p>
+      <div class="pill-row">
+        <div class="pill">Beginner-friendly</div>
+        <div class="pill">Offline HTML file</div>
+        <div class="pill">Exam-focused</div>
+        <div class="pill">Copy-paste code examples</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <aside class="sidebar">
+      <h2>Contents</h2>
+      <a href="#start">1. Where to start</a>
+      <a href="#workflow">2. Exam workflow</a>
+      <a href="#cleaning">3. Clean data before graphing</a>
+      <a href="#chooser">4. Which graph should I use?</a>
+      <a href="#line">5. Line charts</a>
+      <a href="#bar">6. Bar charts</a>
+      <a href="#hist">7. Histograms</a>
+      <a href="#scatter">8. Scatter plots</a>
+      <a href="#box">9. Box plots</a>
+      <a href="#violin">10. Violin plots</a>
+      <a href="#count">11. Count plots</a>
+      <a href="#heatmap">12. Heatmaps</a>
+      <a href="#subplots">13. Labels, legends, subplots, saving</a>
+      <a href="#mistakes">14. Common mistakes</a>
+      <a href="#practice">15. Practice tasks</a>
+      <a href="#cheatsheet">16. Quick cheat sheet</a>
+      <a href="#sources">17. Sources used</a>
+    </aside>
+
+    <div class="content">
+      <section id="start">
+        <h2>1. Where to start</h2>
+        <p>If you are new, here is the easiest mental model:</p>
+        <ul>
+          <li><strong>pandas</strong> is for loading, cleaning, filtering, grouping, and preparing data.</li>
+          <li><strong>matplotlib</strong> is the underlying plotting library. It is dependable and flexible.</li>
+          <li><strong>seaborn</strong> sits on top of matplotlib and makes many statistical plots easier and prettier.</li>
+        </ul>
+
+        <div class="callout tip">
+          <strong>Best beginner rule:</strong> if you are in an exam and feel stuck, start with pandas for cleaning, then use either <code>df.plot(...)</code> or seaborn for the graph.
+        </div>
+
+        <h3>Basic setup code</h3>
+<pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set_theme()  # optional, but makes plots look nicer</code></pre>
+
+        <h3>Typical data load</h3>
+<pre><code>df = pd.read_csv("my_data.csv")
+print(df.head())
+print(df.info())</code></pre>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="workflow">
+        <h2>2. A simple exam workflow</h2>
+        <ol>
+          <li><strong>Load the data</strong> with <code>pd.read_csv()</code> or <code>pd.read_excel()</code>.</li>
+          <li><strong>Inspect it</strong> using <code>head()</code>, <code>info()</code>, <code>describe()</code>, and <code>isna().sum()</code>.</li>
+          <li><strong>Clean it</strong> by fixing missing values, duplicates, wrong data types, and messy text.</li>
+          <li><strong>Pick the right graph</strong> based on the question being asked.</li>
+          <li><strong>Label everything clearly</strong>: title, axes, legend.</li>
+          <li><strong>Explain what the graph shows</strong> in plain language if the exam asks for interpretation.</li>
+        </ol>
+
+        <div class="callout">
+          <strong>Good habit:</strong> never jump straight into graphing. A graph based on dirty data can be misleading even if the code runs perfectly.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="cleaning">
+        <h2>3. Clean data before graphing</h2>
+        <p>Many graphing problems are actually data cleaning problems in disguise. Before you plot, check these things.</p>
+
+        <h3>3.1 Missing values</h3>
+<pre><code>df.isna().sum()</code></pre>
+        <p>Use this to see how many missing values each column has.</p>
+
+<pre><code># remove rows with missing values in important columns
+clean_df = df.dropna(subset=["sales", "date"])
+
+# fill missing values
+clean_df["region"] = clean_df["region"].fillna("Unknown")</code></pre>
+
+        <h3>3.2 Duplicates</h3>
+<pre><code>df.duplicated().sum()
+df = df.drop_duplicates()</code></pre>
+
+        <h3>3.3 Wrong data types</h3>
+<pre><code>df.info()
+
+df["date"] = pd.to_datetime(df["date"])
+df["sales"] = pd.to_numeric(df["sales"], errors="coerce")</code></pre>
+
+        <h3>3.4 Messy text</h3>
+<pre><code>df["city"] = df["city"].str.strip().str.title()
+df["category"] = df["category"].str.lower()</code></pre>
+
+        <h3>3.5 Outliers</h3>
+        <p>Outliers are unusually large or small values. They are not always wrong, but they can strongly affect your graph. Box plots are especially useful for spotting them.</p>
+
+        <div class="callout warning">
+          <strong>Important:</strong> do not delete outliers automatically unless you have a valid reason. In an exam, it is better to explain why you kept or removed them.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="chooser">
+        <h2>4. Which graph should I use?</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>If you want to show...</th>
+              <th>Use this graph</th>
+              <th>Example question</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Change over time</td>
+              <td>Line chart</td>
+              <td>How did sales change month by month?</td>
+            </tr>
+            <tr>
+              <td>Compare categories</td>
+              <td>Bar chart</td>
+              <td>Which product sold the most?</td>
+            </tr>
+            <tr>
+              <td>Distribution of one numeric variable</td>
+              <td>Histogram</td>
+              <td>How are ages distributed?</td>
+            </tr>
+            <tr>
+              <td>Relationship between two numeric variables</td>
+              <td>Scatter plot</td>
+              <td>Is study time related to exam score?</td>
+            </tr>
+            <tr>
+              <td>Spread, median, outliers</td>
+              <td>Box plot</td>
+              <td>How do salaries vary by department?</td>
+            </tr>
+            <tr>
+              <td>Shape of a distribution</td>
+              <td>Violin plot</td>
+              <td>How does score distribution differ by class?</td>
+            </tr>
+            <tr>
+              <td>Count of categories</td>
+              <td>Count plot</td>
+              <td>How many students chose each subject?</td>
+            </tr>
+            <tr>
+              <td>Many values in a grid / correlations</td>
+              <td>Heatmap</td>
+              <td>Which variables are strongly correlated?</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="grid">
+          <div class="mini-card"><strong>Line chart</strong><br />Best for trends over time.</div>
+          <div class="mini-card"><strong>Bar chart</strong><br />Best for comparing groups.</div>
+          <div class="mini-card"><strong>Histogram</strong><br />Best for seeing distribution shape.</div>
+          <div class="mini-card"><strong>Scatter plot</strong><br />Best for relationships and correlation.</div>
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="line">
+        <h2>5. Line charts</h2>
+        <p><strong>Use a line chart when:</strong> your x-axis has a meaningful order, especially time.</p>
+
+        <h3>What it shows</h3>
+        <p>A line chart helps you see trends, increases, decreases, and patterns over time.</p>
+
+        <h3>Simple example with pandas</h3>
+<pre><code>df = pd.DataFrame({
+    "month": ["Jan", "Feb", "Mar", "Apr"],
+    "sales": [120, 150, 140, 180]
+})
+
+plt.plot(df["month"], df["sales"])
+plt.title("Monthly Sales")
+plt.xlabel("Month")
+plt.ylabel("Sales")
+plt.show()</code></pre>
+
+        <h3>Better matplotlib version</h3>
+<pre><code>fig, ax = plt.subplots()
+ax.plot(df["month"], df["sales"], marker="o")
+ax.set_title("Monthly Sales")
+ax.set_xlabel("Month")
+ax.set_ylabel("Sales")
+ax.grid(True)
+plt.show()</code></pre>
+
+        <h3>Beginner explanation</h3>
+        <ul>
+          <li><code>marker="o"</code> puts a dot on each data point.</li>
+          <li><code>set_title()</code> adds the graph title.</li>
+          <li><code>set_xlabel()</code> and <code>set_ylabel()</code> label the axes.</li>
+          <li><code>grid(True)</code> makes it easier to read values.</li>
+        </ul>
+
+        <div class="callout tip">
+          <strong>Tip:</strong> line charts are usually not good for unrelated categories like "Apple", "Banana", and "Orange". Use a bar chart instead.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="bar">
+        <h2>6. Bar charts</h2>
+        <p><strong>Use a bar chart when:</strong> you want to compare amounts across categories.</p>
+
+        <h3>What it shows</h3>
+        <p>Bar charts make it easy to compare sizes between groups, such as sales by product or number of students by class.</p>
+
+        <h3>Basic bar chart</h3>
+<pre><code>df = pd.DataFrame({
+    "product": ["A", "B", "C"],
+    "sales": [40, 55, 32]
+})
+
+plt.bar(df["product"], df["sales"])
+plt.title("Sales by Product")
+plt.xlabel("Product")
+plt.ylabel("Sales")
+plt.show()</code></pre>
+
+        <h3>Horizontal bar chart</h3>
+<pre><code>plt.barh(df["product"], df["sales"])
+plt.title("Sales by Product")
+plt.xlabel("Sales")
+plt.ylabel("Product")
+plt.show()</code></pre>
+
+        <h3>When horizontal bars are better</h3>
+        <p>If category names are long, a horizontal bar chart is usually easier to read.</p>
+
+        <div class="callout warning">
+          <strong>Common mistake:</strong> do not use a bar chart for raw continuous values over time if a line chart would show the trend more clearly.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="hist">
+        <h2>7. Histograms</h2>
+        <p><strong>Use a histogram when:</strong> you want to see the distribution of one numeric variable.</p>
+
+        <h3>What it shows</h3>
+        <p>A histogram groups numeric values into bins and shows how many values fall into each bin.</p>
+
+        <h3>Example</h3>
+<pre><code>scores = [45, 50, 52, 60, 61, 63, 70, 72, 74, 80, 83, 90]
+
+plt.hist(scores, bins=5, edgecolor="black")
+plt.title("Distribution of Scores")
+plt.xlabel("Score")
+plt.ylabel("Frequency")
+plt.show()</code></pre>
+
+        <h3>Why <code>bins</code> matters</h3>
+        <p>The <code>bins</code> argument controls how many groups the data is split into. Too few bins can hide detail. Too many bins can make the graph noisy.</p>
+
+        <h3>What to look for</h3>
+        <ul>
+          <li>Is the data roughly symmetrical?</li>
+          <li>Is it skewed left or right?</li>
+          <li>Are there multiple peaks?</li>
+          <li>Are there gaps or extreme values?</li>
+        </ul>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="scatter">
+        <h2>8. Scatter plots</h2>
+        <p><strong>Use a scatter plot when:</strong> you want to examine the relationship between two numeric variables.</p>
+
+        <h3>What it shows</h3>
+        <p>Each point represents one row of data. You can look for positive relationships, negative relationships, clusters, or outliers.</p>
+
+        <h3>Matplotlib example</h3>
+<pre><code>df = pd.DataFrame({
+    "study_hours": [1, 2, 3, 4, 5, 6],
+    "score": [50, 55, 65, 70, 78, 88]
+})
+
+plt.scatter(df["study_hours"], df["score"])
+plt.title("Study Hours vs Exam Score")
+plt.xlabel("Study Hours")
+plt.ylabel("Score")
+plt.show()</code></pre>
+
+        <h3>Seaborn version</h3>
+<pre><code>sns.scatterplot(data=df, x="study_hours", y="score")
+plt.title("Study Hours vs Exam Score")
+plt.show()</code></pre>
+
+        <h3>What to say in an exam</h3>
+        <p>If the dots rise from left to right, there may be a positive relationship. If they fall from left to right, there may be a negative relationship. If they are scattered randomly, there may be little or no relationship.</p>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="box">
+        <h2>9. Box plots</h2>
+        <p><strong>Use a box plot when:</strong> you want to compare distributions across categories or identify outliers.</p>
+
+        <h3>What it shows</h3>
+        <ul>
+          <li><strong>Middle line:</strong> median</li>
+          <li><strong>Box:</strong> middle 50% of the data</li>
+          <li><strong>Whiskers:</strong> spread beyond the box</li>
+          <li><strong>Dots beyond whiskers:</strong> possible outliers</li>
+        </ul>
+
+        <h3>Example</h3>
+<pre><code>df = pd.DataFrame({
+    "class": ["A", "A", "A", "B", "B", "B"],
+    "score": [55, 60, 90, 62, 64, 66]
+})
+
+sns.boxplot(data=df, x="class", y="score")
+plt.title("Score Distribution by Class")
+plt.show()</code></pre>
+
+        <div class="callout tip">
+          <strong>Good use:</strong> compare salary distributions across departments, exam scores across classes, or delivery times across regions.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="violin">
+        <h2>10. Violin plots</h2>
+        <p><strong>Use a violin plot when:</strong> you want to see the shape of the distribution, not just the quartiles.</p>
+
+        <h3>Example</h3>
+<pre><code>sns.violinplot(data=df, x="class", y="score")
+plt.title("Score Distribution by Class")
+plt.show()</code></pre>
+
+        <h3>How it differs from a box plot</h3>
+        <p>A box plot gives a compact summary. A violin plot shows the density shape, so you can better see where values are concentrated.</p>
+
+        <div class="callout warning">
+          <strong>Beginner note:</strong> if your teacher has not covered violin plots, do not force them into an exam answer. A box plot is often safer and easier to explain.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="count">
+        <h2>11. Count plots</h2>
+        <p><strong>Use a count plot when:</strong> you want the number of rows in each category.</p>
+
+        <h3>Example</h3>
+<pre><code>df = pd.DataFrame({
+    "subject": ["Maths", "English", "Maths", "Science", "English", "Maths"]
+})
+
+sns.countplot(data=df, x="subject")
+plt.title("Number of Students by Subject")
+plt.show()</code></pre>
+
+        <h3>Why not just a bar chart?</h3>
+        <p>You can use a bar chart too, but a count plot automatically counts category frequencies from the raw data.</p>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="heatmap">
+        <h2>12. Heatmaps</h2>
+        <p><strong>Use a heatmap when:</strong> you want to show values in a colour grid, especially correlations.</p>
+
+        <h3>Correlation heatmap example</h3>
+<pre><code>corr = df.corr(numeric_only=True)
+
+sns.heatmap(corr, annot=True, cmap="coolwarm")
+plt.title("Correlation Heatmap")
+plt.show()</code></pre>
+
+        <h3>What this means</h3>
+        <ul>
+          <li><code>corr()</code> calculates correlations between numeric columns.</li>
+          <li><code>annot=True</code> prints the numbers inside the boxes.</li>
+          <li><code>cmap="coolwarm"</code> sets the colour scheme.</li>
+        </ul>
+
+        <div class="callout tip">
+          <strong>Exam wording:</strong> a correlation heatmap helps identify variables that move together strongly, either positively or negatively.
+        </div>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="subplots">
+        <h2>13. Labels, legends, subplots, and saving your graph</h2>
+
+        <h3>Always label your graph</h3>
+<pre><code>plt.title("Sales by Month")
+plt.xlabel("Month")
+plt.ylabel("Sales")</code></pre>
+
+        <h3>Add a legend when needed</h3>
+<pre><code>ax.plot(x, y1, label="2024")
+ax.plot(x, y2, label="2025")
+ax.legend()</code></pre>
+
+        <h3>Use subplots for multiple graphs</h3>
+<pre><code>fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+axes[0].hist(df["score"], bins=5)
+axes[0].set_title("Scores")
+
+axes[1].boxplot(df["score"])
+axes[1].set_title("Score Spread")
+
+plt.tight_layout()
+plt.show()</code></pre>
+
+        <h3>Save your graph</h3>
+<pre><code>plt.savefig("my_graph.png", dpi=300, bbox_inches="tight")</code></pre>
+
+        <p><strong>What this does:</strong></p>
+        <ul>
+          <li><code>dpi=300</code> makes the image higher quality.</li>
+          <li><code>bbox_inches="tight"</code> trims unnecessary whitespace.</li>
+        </ul>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="mistakes">
+        <h2>14. Common mistakes beginners make</h2>
+        <div class="grid">
+          <div class="mini-card">
+            <strong>Using the wrong graph</strong><br />Example: using a pie chart or line chart when a bar chart would be clearer.
+          </div>
+          <div class="mini-card">
+            <strong>Not cleaning data first</strong><br />Missing values, wrong types, and duplicate rows can distort the result.
+          </div>
+          <div class="mini-card">
+            <strong>No labels</strong><br />A graph without a title or axis labels is much harder to understand.
+          </div>
+          <div class="mini-card">
+            <strong>Overcomplicating the graph</strong><br />If a simple bar chart answers the question, do not make a fancy multi-layer plot.
+          </div>
+        </div>
+
+        <h3>Extra caution about pie charts</h3>
+        <p>Pie charts exist, but they are often harder to compare accurately than bar charts. If your exam specifically asks for a pie chart, use one. Otherwise, a bar chart is often the better choice.</p>
+
+<pre><code>df["sales"].plot(kind="pie", autopct="%1.1f%%")
+plt.ylabel("")
+plt.show()</code></pre>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="practice">
+        <h2>15. Practice tasks</h2>
+        <h3>Task 1: Trend over time</h3>
+        <p>You have monthly website visitors. Which graph should you use?</p>
+        <p><strong>Answer:</strong> a line chart.</p>
+
+        <h3>Task 2: Compare departments</h3>
+        <p>You want to compare average salary across three departments.</p>
+        <p><strong>Answer:</strong> a bar chart.</p>
+
+        <h3>Task 3: Show score spread</h3>
+        <p>You want to compare the distribution of exam scores for Class A and Class B.</p>
+        <p><strong>Answer:</strong> a box plot or violin plot.</p>
+
+        <h3>Task 4: Relationship between variables</h3>
+        <p>You want to check whether hours studied are related to final exam score.</p>
+        <p><strong>Answer:</strong> a scatter plot.</p>
+
+        <h3>Task 5: Numeric distribution</h3>
+        <p>You want to see how customer ages are distributed.</p>
+        <p><strong>Answer:</strong> a histogram.</p>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>16. Quick cheat sheet</h2>
+<pre><code># Load data
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_theme()
+
+df = pd.read_csv("data.csv")
+
+# Inspect data
+df.head()
+df.info()
+df.describe()
+df.isna().sum()
+
+# Clean data
+df = df.drop_duplicates()
+df["date"] = pd.to_datetime(df["date"], errors="coerce")
+df["value"] = pd.to_numeric(df["value"], errors="coerce")
+
+# Line chart
+sns.lineplot(data=df, x="date", y="value")
+
+# Bar chart
+sns.barplot(data=df, x="category", y="value")
+
+# Histogram
+sns.histplot(data=df, x="value", bins=20)
+
+# Scatter plot
+sns.scatterplot(data=df, x="x_col", y="y_col")
+
+# Box plot
+sns.boxplot(data=df, x="group", y="value")
+
+# Violin plot
+sns.violinplot(data=df, x="group", y="value")
+
+# Count plot
+sns.countplot(data=df, x="category")
+
+# Heatmap
+corr = df.corr(numeric_only=True)
+sns.heatmap(corr, annot=True, cmap="coolwarm")
+
+plt.show()</code></pre>
+
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+
+      <section id="sources">
+        <h2>17. Sources used</h2>
+        <p>This study guide was written using the official documentation and documentation-derived material for the main Python plotting stack, then rewritten into novice-friendly explanations.</p>
+        <ul>
+          <li><strong>pandas documentation</strong> — plotting basics, <code>DataFrame.plot()</code>, histograms, box plots, and data handling concepts.</li>
+          <li><strong>Matplotlib documentation</strong> — plotting basics, line charts, scatter plots, bar charts, histograms, labels, legends, subplots, and saving figures.</li>
+          <li><strong>Seaborn documentation</strong> — high-level plotting functions such as <code>scatterplot</code>, <code>lineplot</code>, <code>boxplot</code>, <code>violinplot</code>, <code>countplot</code>, themes, and dataframe-friendly plotting.</li>
+        </ul>
+
+        <p class="footer">Built as a self-contained offline HTML study site. You can open it locally in any browser and keep it on your laptop for revision.</p>
+        <a class="top-link" href="#top">↑ Back to top</a>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
