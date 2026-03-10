@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
+  <rect width="760" height="420" fill="#f8fbff"/>
+  <text x="380" y="34" text-anchor="middle" font-family="Arial" font-size="24" fill="#1e3a8a">Violin Plot Example</text>
+  <line x1="80" y1="360" x2="700" y2="360" stroke="#334155" stroke-width="2"/>
+  <line x1="80" y1="70" x2="80" y2="360" stroke="#334155" stroke-width="2"/>
+  <path d="M240,140 C180,170 180,300 240,330 C300,300 300,170 240,140 Z" fill="#93c5fd" stroke="#1e3a8a" stroke-width="2"/>
+  <line x1="205" y1="235" x2="275" y2="235" stroke="#dc2626" stroke-width="3"/>
+  <path d="M500,160 C455,185 455,290 500,315 C545,290 545,185 500,160 Z" fill="#93c5fd" stroke="#1e3a8a" stroke-width="2"/>
+  <line x1="470" y1="240" x2="530" y2="240" stroke="#dc2626" stroke-width="3"/>
+</svg>

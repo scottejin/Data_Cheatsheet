@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
+  <rect width="760" height="420" fill="#f8fbff"/>
+  <text x="380" y="34" text-anchor="middle" font-family="Arial" font-size="24" fill="#1e3a8a">Histogram Example</text>
+  <line x1="80" y1="360" x2="700" y2="360" stroke="#334155" stroke-width="2"/>
+  <line x1="80" y1="70" x2="80" y2="360" stroke="#334155" stroke-width="2"/>
+  <rect x="120" y="300" width="80" height="60" fill="#93c5fd" stroke="#1e3a8a"/>
+  <rect x="200" y="240" width="80" height="120" fill="#93c5fd" stroke="#1e3a8a"/>
+  <rect x="280" y="180" width="80" height="180" fill="#93c5fd" stroke="#1e3a8a"/>
+  <rect x="360" y="140" width="80" height="220" fill="#93c5fd" stroke="#1e3a8a"/>
+  <rect x="440" y="220" width="80" height="140" fill="#93c5fd" stroke="#1e3a8a"/>
+  <rect x="520" y="280" width="80" height="80" fill="#93c5fd" stroke="#1e3a8a"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
+  <rect width="760" height="420" fill="#f8fbff"/>
+  <text x="380" y="34" text-anchor="middle" font-family="Arial" font-size="24" fill="#1e3a8a">Line Chart Example</text>
+  <line x1="80" y1="360" x2="700" y2="360" stroke="#334155" stroke-width="2"/>
+  <line x1="80" y1="70" x2="80" y2="360" stroke="#334155" stroke-width="2"/>
+  <polyline fill="none" stroke="#2563eb" stroke-width="4" points="100,300 190,250 280,270 370,220 460,235 550,180 640,150"/>
+  <g fill="#2563eb">
+    <circle cx="100" cy="300" r="6"/><circle cx="190" cy="250" r="6"/><circle cx="280" cy="270" r="6"/>
+    <circle cx="370" cy="220" r="6"/><circle cx="460" cy="235" r="6"/><circle cx="550" cy="180" r="6"/><circle cx="640" cy="150" r="6"/>
+  </g>
+  <text x="390" y="395" text-anchor="middle" font-family="Arial" font-size="16" fill="#334155">Month</text>
+  <text x="22" y="215" transform="rotate(-90 22 215)" text-anchor="middle" font-family="Arial" font-size="16" fill="#334155">Sales</text>
+</svg>

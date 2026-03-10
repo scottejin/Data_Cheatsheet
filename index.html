@@ -174,6 +174,19 @@
       color: var(--accent);
       font-weight: 600;
     }
+    .plot-example {
+      margin: 10px 0 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 10px;
+    }
+    .plot-example img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+    }
 
     .code-split {
       display: grid;
@@ -526,6 +539,11 @@
         <h3>What it shows</h3>
         <p>A line chart helps you see trends, increases, decreases, and patterns over time.</p>
 
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/line_chart_example.svg" alt="Line chart example" />
+        </div>
+
         <h3>Simple example with pandas</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df = pd.DataFrame({</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">    &quot;month&quot;: [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;],</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">    &quot;sales&quot;: [120, 150, 140, 180]</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">})</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt">plt.plot(df[&quot;month&quot;], df[&quot;sales&quot;])</span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">plt.title(&quot;Monthly Sales&quot;)</span></div><div class="code-line"><span class="code-num">8</span><span class="code-txt">plt.xlabel(&quot;Month&quot;)</span></div><div class="code-line"><span class="code-num">9</span><span class="code-txt">plt.ylabel(&quot;Sales&quot;)</span></div><div class="code-line"><span class="code-num">10</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Calls a function/method.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L9</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li></ol></div></div>
 
@@ -554,6 +572,11 @@
         <h3>What it shows</h3>
         <p>Bar charts make it easy to compare sizes between groups, such as sales by product or number of students by class.</p>
 
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/bar_chart_example.svg" alt="Bar chart example" />
+        </div>
+
         <h3>Basic bar chart</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df = pd.DataFrame({</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">    &quot;product&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;],</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">    &quot;sales&quot;: [40, 55, 32]</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">})</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt">plt.bar(df[&quot;product&quot;], df[&quot;sales&quot;])</span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">plt.title(&quot;Sales by Product&quot;)</span></div><div class="code-line"><span class="code-num">8</span><span class="code-txt">plt.xlabel(&quot;Product&quot;)</span></div><div class="code-line"><span class="code-num">9</span><span class="code-txt">plt.ylabel(&quot;Sales&quot;)</span></div><div class="code-line"><span class="code-num">10</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L9</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li></ol></div></div>
 
@@ -576,6 +599,11 @@
 
         <h3>What it shows</h3>
         <p>A histogram groups numeric values into bins and shows how many values fall into each bin.</p>
+
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/histogram_example.svg" alt="Histogram example" />
+        </div>
 
         <h3>Example</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">scores = [45, 50, 52, 60, 61, 63, 70, 72, 74, 80, 83, 90]</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">plt.hist(scores, bins=5, edgecolor=&quot;black&quot;)</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">plt.title(&quot;Distribution of Scores&quot;)</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt">plt.xlabel(&quot;Score&quot;)</span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt">plt.ylabel(&quot;Frequency&quot;)</span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L2</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L3</span><span>Draws a histogram (distribution across bins).</span></li><li><span class="line-ref">L4</span><span>Sets the chart title.</span></li><li><span class="line-ref">L5</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L6</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L7</span><span>Displays the chart output.</span></li></ol></div></div>
@@ -601,6 +629,11 @@
         <h3>What it shows</h3>
         <p>Each point represents one row of data. You can look for positive relationships, negative relationships, clusters, or outliers.</p>
 
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/scatter_plot_example.svg" alt="Scatter plot example" />
+        </div>
+
         <h3>Matplotlib example</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df = pd.DataFrame({</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">    &quot;study_hours&quot;: [1, 2, 3, 4, 5, 6],</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">    &quot;score&quot;: [50, 55, 65, 70, 78, 88]</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">})</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt">plt.scatter(df[&quot;study_hours&quot;], df[&quot;score&quot;])</span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">plt.title(&quot;Study Hours vs Exam Score&quot;)</span></div><div class="code-line"><span class="code-num">8</span><span class="code-txt">plt.xlabel(&quot;Study Hours&quot;)</span></div><div class="code-line"><span class="code-num">9</span><span class="code-txt">plt.ylabel(&quot;Score&quot;)</span></div><div class="code-line"><span class="code-num">10</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Draws points to show relationships between numeric variables.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L9</span><span>Sets the y-axis label.</span></li><li><span class="line-ref">L10</span><span>Displays the chart output.</span></li></ol></div></div>
 
@@ -625,6 +658,11 @@
           <li><strong>Dots beyond whiskers:</strong> possible outliers</li>
         </ul>
 
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/box_plot_example.svg" alt="Box plot example" />
+        </div>
+
         <h3>Example</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df = pd.DataFrame({</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">    &quot;class&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;],</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">    &quot;score&quot;: [55, 60, 90, 62, 64, 66]</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">})</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt">sns.boxplot(data=df, x=&quot;class&quot;, y=&quot;score&quot;)</span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">plt.title(&quot;Score Distribution by Class&quot;)</span></div><div class="code-line"><span class="code-num">8</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Displays the chart output.</span></li></ol></div></div>
 
@@ -638,6 +676,11 @@
       <section id="violin">
         <h2>10. Violin plots</h2>
         <p><strong>Use a violin plot when:</strong> you want to see the shape of the distribution, not just the quartiles.</p>
+
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/violin_plot_example.svg" alt="Violin plot example" />
+        </div>
 
         <h3>Example</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">sns.violinplot(data=df, x=&quot;class&quot;, y=&quot;score&quot;)</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">plt.title(&quot;Score Distribution by Class&quot;)</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L2</span><span>Sets the chart title.</span></li><li><span class="line-ref">L3</span><span>Displays the chart output.</span></li></ol></div></div>
@@ -656,6 +699,11 @@
         <h2>11. Count plots</h2>
         <p><strong>Use a count plot when:</strong> you want the number of rows in each category.</p>
 
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/count_plot_example.svg" alt="Count plot example" />
+        </div>
+
         <h3>Example</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df = pd.DataFrame({</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">    &quot;subject&quot;: [&quot;Maths&quot;, &quot;English&quot;, &quot;Maths&quot;, &quot;Science&quot;, &quot;English&quot;, &quot;Maths&quot;]</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">})</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt">sns.countplot(data=df, x=&quot;subject&quot;)</span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt">plt.title(&quot;Number of Students by Subject&quot;)</span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Calls a function/method.</span></li><li><span class="line-ref">L4</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L5</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L6</span><span>Sets the chart title.</span></li><li><span class="line-ref">L7</span><span>Displays the chart output.</span></li></ol></div></div>
 
@@ -668,6 +716,11 @@
       <section id="heatmap">
         <h2>12. Heatmaps</h2>
         <p><strong>Use a heatmap when:</strong> you want to show values in a colour grid, especially correlations.</p>
+
+        <h3>Visual example</h3>
+        <div class="plot-example">
+          <img src="plot_examples/heatmap_example.svg" alt="Heatmap example" />
+        </div>
 
         <h3>Correlation heatmap example</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">corr = df.corr(numeric_only=True)</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">sns.heatmap(corr, annot=True, cmap=&quot;coolwarm&quot;)</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">plt.title(&quot;Correlation Heatmap&quot;)</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Computes correlations between numeric columns.</span></li><li><span class="line-ref">L2</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L3</span><span>Shows matrix values as colors (often correlations).</span></li><li><span class="line-ref">L4</span><span>Sets the chart title.</span></li><li><span class="line-ref">L5</span><span>Displays the chart output.</span></li></ol></div></div>
