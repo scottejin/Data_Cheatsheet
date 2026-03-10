@@ -361,6 +361,23 @@
           <strong>Good habit:</strong> never jump straight into graphing. A graph based on dirty data can be misleading even if the code runs perfectly.
         </div>
 
+        <h3>2.1 First 30-second diagnosis block</h3>
+        <p>In tests, run these first to quickly detect the biggest problems before cleaning.</p>
+        <pre><code>df.shape
+df.head(3)
+df.info()
+df.describe(include="all")
+df.isna().sum().sort_values(ascending=False)
+df.duplicated().sum()</code></pre>
+
+        <h3>2.2 Missing-value decision rule (exam-safe)</h3>
+        <ul>
+          <li><strong>Drop rows</strong> if key ID/date/target is missing.</li>
+          <li><strong>Fill numeric</strong> with median when outliers are possible.</li>
+          <li><strong>Fill categorical</strong> with <code>Unknown</code> or mode.</li>
+          <li>Always add one sentence to justify the choice.</li>
+        </ul>
+
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
 
@@ -455,7 +472,25 @@
         <p>If your graph uses merged tables, validate the merge or you can silently duplicate rows and inflate counts.</p>
         <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">merged = orders.merge(customers, on="customer_id", how="left", indicator=True, validate="many_to_one")</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">print(merged["_merge"].value_counts())</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">merged = merged[merged["_merge"] != "left_only"]</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Merges with checks: each customer_id on right should map to at most one row.</span></li><li><span class="line-ref">L2</span><span>Shows matched/unmatched row counts.</span></li><li><span class="line-ref">L3</span><span>Drops unmatched rows if they would break the chart logic.</span></li></ol></div></div>
 
-        <h3>3.12 Mini checklist before any graph</h3>
+        <h3>3.12 Validation checks after cleaning</h3>
+        <p>After cleaning, verify your final dataset before plotting or writing conclusions.</p>
+        <pre><code>print(df.shape)
+print(df.isna().sum())
+print(df.dtypes)
+print(df.duplicated().sum())</code></pre>
+
+        <h3>3.13 Groupby and pivot checks before plotting</h3>
+        <p>Many visualizations require a grouped summary first. This is highly testable.</p>
+        <pre><code># mean value per category
+df.groupby("category")["value"].mean()
+
+# multiple metrics
+df.groupby(["region","category"]).agg({"sales":["mean","median","count"]})
+
+# pivot table summary
+pd.pivot_table(df, index="region", columns="category", values="sales", aggfunc="mean")</code></pre>
+
+        <h3>3.14 Mini checklist before any graph</h3>
         <ul>
           <li>No critical missing keys left.</li>
           <li>Numeric columns are actually numeric (including decimal/comma edge cases).</li>
@@ -529,6 +564,16 @@
           <div class="mini-card"><strong>Scatter plot</strong><br />Best for relationships and correlation.</div>
         </div>
 
+        <h3>4.1 Quick interpretation sentence templates</h3>
+        <ul>
+          <li><strong>Line:</strong> "From [start] to [end], [metric] generally increased/decreased with [notable dip/peak]."</li>
+          <li><strong>Bar:</strong> "[Category A] is highest and [Category B] is lowest by [difference]."</li>
+          <li><strong>Histogram:</strong> "The distribution is [symmetric/right-skewed/left-skewed] with [possible outliers]."</li>
+          <li><strong>Scatter:</strong> "There is a [positive/negative/weak] relationship between X and Y."</li>
+          <li><strong>Box/Violin:</strong> "Group [X] has [higher median/wider spread/more outliers] than group [Y]."</li>
+          <li><strong>Heatmap:</strong> "The strongest correlation is between [A] and [B], but correlation does not prove causation."</li>
+        </ul>
+
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
 
@@ -558,6 +603,9 @@
           <li><code>grid(True)</code> makes it easier to read values.</li>
         </ul>
 
+        <h3>Exam interpretation template</h3>
+        <p><code>Trend:</code> From ___ to ___, the value [increased/decreased], with a [peak/trough] at ___.</p>
+
         <div class="callout tip">
           <strong>Tip:</strong> line charts are usually not good for unrelated categories like "Apple", "Banana", and "Orange". Use a bar chart instead.
         </div>
@@ -585,6 +633,9 @@
 
         <h3>When horizontal bars are better</h3>
         <p>If category names are long, a horizontal bar chart is usually easier to read.</p>
+
+        <h3>Exam interpretation template</h3>
+        <p><code>Comparison:</code> ___ has the highest value, ___ has the lowest, and the difference is ___.</p>
 
         <div class="callout warning">
           <strong>Common mistake:</strong> do not use a bar chart for raw continuous values over time if a line chart would show the trend more clearly.
@@ -619,6 +670,9 @@
           <li>Are there gaps or extreme values?</li>
         </ul>
 
+        <h3>Exam interpretation template</h3>
+        <p><code>Distribution:</code> The values are mostly concentrated around ___, with [right/left] skew and [possible/no] outliers.</p>
+
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
 
@@ -643,6 +697,9 @@
         <h3>What to say in an exam</h3>
         <p>If the dots rise from left to right, there may be a positive relationship. If they fall from left to right, there may be a negative relationship. If they are scattered randomly, there may be little or no relationship.</p>
 
+        <h3>Exam interpretation template</h3>
+        <p><code>Relationship:</code> There appears to be a [positive/negative/weak] association between ___ and ___, with [outlier details if any].</p>
+
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
 
@@ -666,6 +723,9 @@
         <h3>Example</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">df = pd.DataFrame({</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">    &quot;class&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;],</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">    &quot;score&quot;: [55, 60, 90, 62, 64, 66]</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">})</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt">sns.boxplot(data=df, x=&quot;class&quot;, y=&quot;score&quot;)</span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">plt.title(&quot;Score Distribution by Class&quot;)</span></div><div class="code-line"><span class="code-num">8</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Creates a new DataFrame object from provided values.</span></li><li><span class="line-ref">L2</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L3</span><span>Executes this Python statement.</span></li><li><span class="line-ref">L4</span><span>Calls a function/method.</span></li><li><span class="line-ref">L5</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L6</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L7</span><span>Sets the chart title.</span></li><li><span class="line-ref">L8</span><span>Displays the chart output.</span></li></ol></div></div>
 
+        <h3>Exam interpretation template</h3>
+        <p><code>Spread:</code> Group ___ has median ___ and [wider/narrower] spread than group ___, with [more/fewer] outliers.</p>
+
         <div class="callout tip">
           <strong>Good use:</strong> compare salary distributions across departments, exam scores across classes, or delivery times across regions.
         </div>
@@ -687,6 +747,9 @@
 
         <h3>How it differs from a box plot</h3>
         <p>A box plot gives a compact summary. A violin plot shows the density shape, so you can better see where values are concentrated.</p>
+
+        <h3>Exam interpretation template</h3>
+        <p><code>Density:</code> The distribution for ___ is more concentrated around ___ while ___ is more spread/skewed.</p>
 
         <div class="callout warning">
           <strong>Beginner note:</strong> if your teacher has not covered violin plots, do not force them into an exam answer. A box plot is often safer and easier to explain.
@@ -710,6 +773,9 @@
         <h3>Why not just a bar chart?</h3>
         <p>You can use a bar chart too, but a count plot automatically counts category frequencies from the raw data.</p>
 
+        <h3>Exam interpretation template</h3>
+        <p><code>Count:</code> Most observations belong to ___, while ___ appears least frequent.</p>
+
         <a class="top-link" href="#top">↑ Back to top</a>
       </section>
 
@@ -732,6 +798,9 @@
           <li><code>cmap="coolwarm"</code> sets the colour scheme.</li>
         </ul>
 
+        <h3>Exam interpretation template</h3>
+        <p><code>Correlation:</code> The strongest pair is ___ and ___ (r = ___). This indicates association, not causation.</p>
+
         <div class="callout tip">
           <strong>Exam wording:</strong> a correlation heatmap helps identify variables that move together strongly, either positively or negatively.
         </div>
@@ -741,6 +810,15 @@
 
       <section id="subplots">
         <h2>13. Labels, legends, subplots, and saving your graph</h2>
+
+        <h3>13.1 Test-ready chart quality checklist</h3>
+        <ul>
+          <li>Clear title with context (what + who + time).</li>
+          <li>Axis labels include units (%, $, hours, etc.).</li>
+          <li>Readable figure size (<code>figsize=(8,4)</code> is a safe default).</li>
+          <li>Legend only when needed; avoid clutter.</li>
+          <li>Use <code>plt.tight_layout()</code> before saving.</li>
+        </ul>
 
         <h3>Always label your graph</h3>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt">plt.title(&quot;Sales by Month&quot;)</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">plt.xlabel(&quot;Month&quot;)</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">plt.ylabel(&quot;Sales&quot;)</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Sets the chart title.</span></li><li><span class="line-ref">L2</span><span>Sets the x-axis label.</span></li><li><span class="line-ref">L3</span><span>Sets the y-axis label.</span></li></ol></div></div>
@@ -780,6 +858,14 @@
           </div>
         </div>
 
+        <h3>Extra high-yield pitfalls</h3>
+        <ul>
+          <li><strong>SettingWithCopyWarning:</strong> prefer <code>df.loc[mask, "col"] = value</code> over chained assignment.</li>
+          <li><strong>Unsorted dates:</strong> always sort by time before line charts.</li>
+          <li><strong>String numbers:</strong> convert before plotting, or charts can silently mislead.</li>
+          <li><strong>Correlation trap:</strong> correlation does not imply causation.</li>
+        </ul>
+
         <h3>Extra caution about pie charts</h3>
         <p>Pie charts exist, but they are often harder to compare accurately than bar charts. If your exam specifically asks for a pie chart, use one. Otherwise, a bar chart is often the better choice.</p>
 
@@ -815,6 +901,13 @@
 
       <section id="cheatsheet">
         <h2>16. Quick cheat sheet</h2>
+        <h3>16.1 Numpy essentials for cleaning</h3>
+        <pre><code>np.where(condition, value_if_true, value_if_false)
+np.select([cond1, cond2], [choice1, choice2], default=...)
+np.clip(arr, lower, upper)
+np.percentile(arr, [25, 50, 75])
+np.log1p(arr)  # for right-skewed numeric data
+np.nan, np.isnan(arr)</code></pre>
 <div class="code-split"><div class="code-left"><div class="code-lines"><div class="code-line"><span class="code-num">1</span><span class="code-txt"># Load data</span></div><div class="code-line"><span class="code-num">2</span><span class="code-txt">import pandas as pd</span></div><div class="code-line"><span class="code-num">3</span><span class="code-txt">import matplotlib.pyplot as plt</span></div><div class="code-line"><span class="code-num">4</span><span class="code-txt">import seaborn as sns</span></div><div class="code-line"><span class="code-num">5</span><span class="code-txt">sns.set_theme()</span></div><div class="code-line"><span class="code-num">6</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">7</span><span class="code-txt">df = pd.read_csv(&quot;data.csv&quot;)</span></div><div class="code-line"><span class="code-num">8</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">9</span><span class="code-txt"># Inspect data</span></div><div class="code-line"><span class="code-num">10</span><span class="code-txt">df.head()</span></div><div class="code-line"><span class="code-num">11</span><span class="code-txt">df.info()</span></div><div class="code-line"><span class="code-num">12</span><span class="code-txt">df.describe()</span></div><div class="code-line"><span class="code-num">13</span><span class="code-txt">df.isna().sum()</span></div><div class="code-line"><span class="code-num">14</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">15</span><span class="code-txt"># Clean data</span></div><div class="code-line"><span class="code-num">16</span><span class="code-txt">df = df.drop_duplicates()</span></div><div class="code-line"><span class="code-num">17</span><span class="code-txt">df[&quot;date&quot;] = pd.to_datetime(df[&quot;date&quot;], errors=&quot;coerce&quot;)</span></div><div class="code-line"><span class="code-num">18</span><span class="code-txt">df[&quot;value&quot;] = pd.to_numeric(df[&quot;value&quot;], errors=&quot;coerce&quot;)</span></div><div class="code-line"><span class="code-num">19</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">20</span><span class="code-txt"># Line chart</span></div><div class="code-line"><span class="code-num">21</span><span class="code-txt">sns.lineplot(data=df, x=&quot;date&quot;, y=&quot;value&quot;)</span></div><div class="code-line"><span class="code-num">22</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">23</span><span class="code-txt"># Bar chart</span></div><div class="code-line"><span class="code-num">24</span><span class="code-txt">sns.barplot(data=df, x=&quot;category&quot;, y=&quot;value&quot;)</span></div><div class="code-line"><span class="code-num">25</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">26</span><span class="code-txt"># Histogram</span></div><div class="code-line"><span class="code-num">27</span><span class="code-txt">sns.histplot(data=df, x=&quot;value&quot;, bins=20)</span></div><div class="code-line"><span class="code-num">28</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">29</span><span class="code-txt"># Scatter plot</span></div><div class="code-line"><span class="code-num">30</span><span class="code-txt">sns.scatterplot(data=df, x=&quot;x_col&quot;, y=&quot;y_col&quot;)</span></div><div class="code-line"><span class="code-num">31</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">32</span><span class="code-txt"># Box plot</span></div><div class="code-line"><span class="code-num">33</span><span class="code-txt">sns.boxplot(data=df, x=&quot;group&quot;, y=&quot;value&quot;)</span></div><div class="code-line"><span class="code-num">34</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">35</span><span class="code-txt"># Violin plot</span></div><div class="code-line"><span class="code-num">36</span><span class="code-txt">sns.violinplot(data=df, x=&quot;group&quot;, y=&quot;value&quot;)</span></div><div class="code-line"><span class="code-num">37</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">38</span><span class="code-txt"># Count plot</span></div><div class="code-line"><span class="code-num">39</span><span class="code-txt">sns.countplot(data=df, x=&quot;category&quot;)</span></div><div class="code-line"><span class="code-num">40</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">41</span><span class="code-txt"># Heatmap</span></div><div class="code-line"><span class="code-num">42</span><span class="code-txt">corr = df.corr(numeric_only=True)</span></div><div class="code-line"><span class="code-num">43</span><span class="code-txt">sns.heatmap(corr, annot=True, cmap=&quot;coolwarm&quot;)</span></div><div class="code-line"><span class="code-num">44</span><span class="code-txt"> </span></div><div class="code-line"><span class="code-num">45</span><span class="code-txt">plt.show()</span></div></div></div><div class="code-right"><h5>Line-by-line explanation</h5><ol><li><span class="line-ref">L1</span><span>Load data</span></li><li><span class="line-ref">L2</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L3</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L4</span><span>Imports a Python module/library into your script.</span></li><li><span class="line-ref">L5</span><span>Calls a function/method.</span></li><li><span class="line-ref">L6</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L7</span><span>Loads CSV data from disk into a DataFrame.</span></li><li><span class="line-ref">L8</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L9</span><span>Inspect data</span></li><li><span class="line-ref">L10</span><span>Calls a function/method.</span></li><li><span class="line-ref">L11</span><span>Calls a function/method.</span></li><li><span class="line-ref">L12</span><span>Calls a function/method.</span></li><li><span class="line-ref">L13</span><span>Counts missing values per column.</span></li><li><span class="line-ref">L14</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L15</span><span>Clean data</span></li><li><span class="line-ref">L16</span><span>Removes duplicate rows.</span></li><li><span class="line-ref">L17</span><span>Converts values into datetime format.</span></li><li><span class="line-ref">L18</span><span>Converts values into numeric format; invalid entries can become missing.</span></li><li><span class="line-ref">L19</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L20</span><span>Line chart</span></li><li><span class="line-ref">L21</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L22</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L23</span><span>Bar chart</span></li><li><span class="line-ref">L24</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L25</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L26</span><span>Histogram</span></li><li><span class="line-ref">L27</span><span>Assigns a result to a variable.</span></li><li><span class="line-ref">L28</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L29</span><span>Scatter plot</span></li><li><span class="line-ref">L30</span><span>Draws points to show relationships between numeric variables.</span></li><li><span class="line-ref">L31</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L32</span><span>Box plot</span></li><li><span class="line-ref">L33</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L34</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L35</span><span>Violin plot</span></li><li><span class="line-ref">L36</span><span>Shows distribution by category.</span></li><li><span class="line-ref">L37</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L38</span><span>Count plot</span></li><li><span class="line-ref">L39</span><span>Draws bars for category comparisons or counts.</span></li><li><span class="line-ref">L40</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L41</span><span>Heatmap</span></li><li><span class="line-ref">L42</span><span>Computes correlations between numeric columns.</span></li><li><span class="line-ref">L43</span><span>Shows matrix values as colors (often correlations).</span></li><li><span class="line-ref">L44</span><span>Blank spacer line for readability.</span></li><li><span class="line-ref">L45</span><span>Displays the chart output.</span></li></ol></div></div>
 
         <a class="top-link" href="#top">↑ Back to top</a>
